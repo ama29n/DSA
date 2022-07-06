@@ -33,22 +33,22 @@ int longestConsecutive(vector<int>& nums) {
 // O(n) Solution 
 
 int longestConsecutive(vector<int>& nums) {
-        int n = nums.size();
-        if(n == 1)
-            return n;
-        unordered_set<int> s;
-        for(auto it : nums)
-            s.insert(it);
-        int maxCount = 0;
-        for(auto it : s) {
-            // If it - 1 element exists it means it has been considered in a sequence
-            if(s.find(it - 1) != s.end())
-                continue;
-            // If it - 1 doesn't exists it means it is a new sequence 
-            int j = 1;
-            while(s.find(it + j) != s.end())
-                j++;
-            maxCount = max(maxCount, j);
-        }
-        return maxCount;
-    }   
+    int n = nums.size();
+    if(n == 1)
+        return n;
+    unordered_set<int> s;
+    for(auto it : nums)
+        s.insert(it);
+    int maxCount = 0;
+    for(auto it : s) {
+        // If it - 1 element exists it means it has been considered in a sequence
+        if(s.find(it - 1) != s.end())
+            continue;
+        // If it - 1 doesn't exists it means it is a new sequence 
+        int j = 1;
+        while(s.find(it + j) != s.end())
+            j++;
+        maxCount = max(maxCount, j);
+    }
+    return maxCount;
+}   

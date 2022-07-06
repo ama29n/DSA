@@ -24,7 +24,6 @@ int main() {
     // Returns whether the queue is empty
     q.empty();
 
-
     // Priority queue of min-heap
     priority_queue <int, vector<int>, greater<int>> q;
 }
