@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-long  cal(long  i, long  j, long  n, long  b, vector<vector<long >>& dp) {
+long cal(long i, long j, long n, long b, vector<vector<long>>& dp) {
     if(i >= n || j >= n)
         return 0;
     long  m = n / 2;
@@ -13,15 +13,17 @@ long  cal(long  i, long  j, long  n, long  b, vector<vector<long >>& dp) {
         return 1;
     if(dp[i][j] != -1)
         return dp[i][j];
-    long  down = cal(i + 1, j, n, b, dp);
-    long  right = cal(i, j + 1, n, b, dp);
-    return dp[i][j] = down + right;
+    long mod = 1e9 + 7;
+    long down = cal(i + 1, j, n, b, dp);
+    long right = cal(i, j + 1, n, b, dp);
+    down %= mod;
+    right %= mod;
+    return dp[i][j] = (down + right) % mod;
 }
 long  solve(long  A, long  B) {
-    vector<vector<long >> dp(A, vector<long > (A, -1));
-    long  ans = cal(0, 0, A, B, dp);
-    long  mod = 1e9 + 7;
-    return ans % mod;
+    vector<vector<long>> dp(A, vector<long> (A, -1));
+    long ans = cal(0, 0, A, B, dp);
+    return ans;
 }
 
 int main() {
