@@ -44,7 +44,6 @@ void display(node *&head)
 }
 
 // o(n) time and O(n) space method
-
 node *addOne_1(node *head)
 {
     stack<node *> s;
@@ -104,8 +103,7 @@ node *addOne_2(node *head)
 // However in both methods if for the 1st node we get a 2 digit number, we are not creating a new node i.e. splitting
 // the 2 digits into seprate nodes.
 
-int main()
-{
+int main() {
     node *head = NULL;
     push(head, 1);
     push(head, 2);

@@ -1,8 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct ListNode
-{
+struct ListNode {
     int val;
     ListNode *next;
     ListNode() : val(0), next(nullptr) {}
@@ -10,30 +9,18 @@ struct ListNode
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
-class Solution
-{
-public:
-    ListNode *mergeTwoLists(ListNode *l1, ListNode *l2)
-    {
-        ListNode temp(0), *head = &temp;
-
-        while (l1 && l2)
-        {
-            if (l1->val <= l2->val)
-            {
-                head->next = l1;
-                l1 = l1->next;
-            }
-            else
-            {
-                head->next = l2;
-                l2 = l2->next;
-            }
-
-            head = head->next;
+ListNode *mergeTwoLists(ListNode *l1, ListNode *l2) {
+    ListNode temp(0), *head = &temp;
+    while (l1 && l2) {
+        if (l1->val <= l2->val) {
+            head->next = l1;
+            l1 = l1->next;
+        } else {
+            head->next = l2;
+            l2 = l2->next;
         }
-
-        head->next = l1 ? l1 : l2;
-        return temp.next;
+        head = head->next;
     }
-};
+    head->next = l1 ? l1 : l2;
+    return temp.next;
+}

@@ -1,8 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct ListNode
-{
+struct ListNode {
     int val;
     ListNode *next;
     ListNode() : val(0), next(nullptr) {}
@@ -10,28 +9,25 @@ struct ListNode
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
-class Solution
-{
-public:
-    ListNode *removeElements(ListNode *head, int val)
-    {
-
-        if (head == NULL)
-            return NULL;
-        while (head && head->val == val)
-            head = head->next;
-
-        ListNode *ptr = head;
-        while (ptr && ptr->next)
-        {
-            if (ptr->next->val == val)
-            {
-                ptr->next = ptr->next->next;
-            }
-            else
-                ptr = ptr->next;
-        }
-
-        return head;
+ListNode* removeElements(ListNode* head, int val) {
+    while(head && head->val == val) {
+        ListNode *del = head;
+        head = head->next;
+        delete del;
     }
-};
+    if(!head)
+        return NULL;
+    ListNode *cur = head->next, *prev = head;
+    while(cur) {
+        if(cur->val == val) {
+            ListNode *del = cur;
+            prev->next = cur->next;
+            cur = cur->next;
+            delete del;
+        } else {
+            prev = cur;
+            cur = cur->next;
+        }
+    }
+    return head;
+}

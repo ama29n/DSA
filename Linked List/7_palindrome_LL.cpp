@@ -1,8 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-struct ListNode
-{
+struct ListNode {
   int val;
   ListNode *next;
   ListNode() : val(0), next(nullptr) {}
@@ -10,48 +9,35 @@ struct ListNode
   ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
-class Solution
-{
-public:
-  ListNode *reverse(ListNode *head)
-  {
-    ListNode *cur = head, *before = NULL, *after = NULL;
-    while (cur != NULL)
-    {
-      after = cur->next;
-      cur->next = before;
-      before = cur;
-      cur = after;
+ListNode* reverseList(ListNode *head) {
+    ListNode *cur = head, *l = NULL, *r = NULL;
+    while(cur) {
+        r = cur->next;
+        cur->next = l;
+        l = cur;
+        cur = r;
     }
+    return l;
+}
+bool isPalindrome(ListNode* head) {
+    if(!head || !head->next)
+        true;
 
-    return before;
-  }
-
-  bool isPalindrome(ListNode *head)
-  {
-
-    if (head == NULL && head->next == NULL)
-      return true;
-
-    ListNode *slow = head, *fast = head, *ptr;
-    while (fast->next != NULL && fast->next->next != NULL)
-    {
-      slow = slow->next;
-      fast = fast->next->next;
+    ListNode *fast = head, *slow = head;
+    while(fast->next && fast->next->next) {
+        fast = fast->next->next;
+        slow = slow->next;
     }
-
-    slow->next = reverse(slow->next);
+    
+    slow->next = reverseList(slow->next);
     slow = slow->next;
-
-    ptr = head;
-
-    while (slow != NULL)
-    {
-      if (ptr->val != slow->val)
-        return false;
-      ptr = ptr->next;
-      slow = slow->next;
+    fast = head;
+    
+    while(slow) {
+        if(slow->val != fast->val)
+            return false;
+        slow = slow->next;
+        fast = fast->next;
     }
     return true;
-  }
-};
+}
