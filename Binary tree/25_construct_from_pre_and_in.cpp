@@ -11,32 +11,27 @@ struct TreeNode {
 };
 
 
-class Solution {
-public:
-  
-  TreeNode *build(vector<int> &pre, vector<int> &in, int s1, int s2, int e1, int e2){
-    
-    if(s1 > e1 || s2 > e2) return NULL;
-    
-    TreeNode* root = new TreeNode(pre[s1]);
-    
-    int ele = pre[s1], idx;
-    for(int i=s2 ; i<=e2; i++){
-      if(in[i]==ele){
-        idx=i;
-        break;
-      }
+TreeNode *build(int s1, int e1, vector<int> &pre, int s2, int e2, vector<int> &in) {
+    if(s1 > e1 || s2 > e2)
+        return NULL;
+
+    TreeNode *root = new TreeNode(pre[s1]);
+
+    int idx;
+    for(int i = s2; i <= e2; i++) {
+      if(pre[s1] == in[i]) {
+            idx = i;
+            break;
+        }
     }
-    idx = idx;
-    int size = idx -s2;
+
+    int gap = idx - s2;
+    root->left = build(s1 + 1, s1 + gap, pre, s2, idx - 1, in);
+    root->right = build(s1 + gap + 1, e1, pre, idx + 1, e2, in);
     
-    root->left = build(pre, in, s1+1, s2, s1+size, idx-1);
-    root->right = build(pre, in, s1+size+1, idx+1, e1, e2);
     return root;
-  }
-  
-    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-      TreeNode* newroot = build(preorder,inorder,0,0,preorder.size()-1,inorder.size()-1);
-      return newroot;
-    }
-};
+}
+TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+    TreeNode *root = build(0, preorder.size() -  1, preorder, 0, inorder.size() - 1, inorder);
+    return root;
+}
