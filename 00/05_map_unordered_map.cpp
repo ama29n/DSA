@@ -14,7 +14,7 @@ int main() {
     // Removes all the elements from the map.
     hashmap.clear();
 
-    // Returns an iterator to the element ‘g’ in the map if found, else returns the iterator to end.
+    // Returns an iterator to the element with key ‘g’ in the map if found, else returns the iterator to end.
     hashmap.find(2);
 
     // Returns an iterator to the first element in the map.
