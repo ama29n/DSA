@@ -56,3 +56,10 @@ void primeFactors(int n) {
 
 // This Approach is best for all composite numbers and achieves O(log n) but is O(n) otherwise.
 
+
+
+// if x = a ^ n1 * b ^ n2 * c ^ n3 
+
+// then total number of divisors = (n1 + 1) * (n2 + 1) * (n3 + 1)
+
+// total sum of divisors = (a ^ (n1 + 1) - 1 / a - 1) * (b ^ (n2 + 1) - 1 / b - 1) * (c ^ (n3 + 1) - 1 / c - 1)

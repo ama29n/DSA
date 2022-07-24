@@ -9,31 +9,34 @@ using namespace std;
 
 // Priority Queue Method
 
-typedef pair<int, int> p; // <weight, node>
-
-vector<int> dijkstra(int n, vector<vector<int>> adj[], int S) {
-    vector<int> weight(n, INT_MAX), vis(n, 0);
-    weight[S] = 0;
+// < path, node >
+typedef pair<int, int> p;
+    
+vector <int> dijkstra(int n, vector<vector<int>> adj[], int src) {
     priority_queue<p, vector<p>, greater<p>> q;
-    q.push({0, S});
-
+    vector<int> included(n, 0), path(n, INT_MAX);
+    q.push({0, src});
+    path[src] = 0;
+    
     while(q.size()) {
-        pair<int, int> node = q.top();
+        int node = q.top().second;
+        int p = q.top().first;
         q.pop();
-
-        if(vis[node.second]) continue;
-        vis[node.second] = 1;
         
-        for(auto it : adj[node.second]) {
-            int d = it[1] + node.first;
-            
-            if(d < weight[it[0]]) {
-                weight[it[0]] = d;
-                q.push({d, it[0]});
+        if(included[node])
+        continue;
+                
+        included[node] = 1;
+        
+        for(auto it : adj[node]) {
+            int v = it[0], totPath = p + it[1];
+            if(totPath < path[v]) {
+                path[v] = totPath;
+                q.push({totPath, v});
             }
         }
     }
-    return weight;
+    return path;
 }
 
 
