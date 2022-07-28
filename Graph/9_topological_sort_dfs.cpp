@@ -4,7 +4,7 @@ using namespace std;
 void sort(int i, vector<int> &vis, vector<int> adj[], vector<int> &ans) {
     vis[i] = 1;
 
-    for(auto it : adj[i]){
+    for(auto it : adj[i]) {
         if(!vis[it])
             sort(it, vis, adj, ans);
     }

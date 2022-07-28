@@ -6,6 +6,8 @@ using namespace std;
 // w = weight
 
 
+// Doesn't works for negative edges 
+
 
 // Priority Queue Method
 
@@ -39,11 +41,7 @@ vector <int> dijkstra(int n, vector<vector<int>> adj[], int src) {
     return path;
 }
 
-
-
-
 // Normal Approach
-
 vector <int> dijkstra(int n, vector<vector<int>> adj[], int src) {
     vector<int> path(n, INT_MAX);
     vector<int> included(n, 0);
