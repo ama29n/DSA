@@ -10,7 +10,7 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
-class Solution_1 { // Find the Inorder of the Tree and then create a perfect tree. Space - O(no. of nodes), Time - O(no. of nodes)
+class Solution_1 { 
 public:
     TreeNode* makeTree(vector<int> &v, int beg, int end) {
         if(beg > end) return NULL;

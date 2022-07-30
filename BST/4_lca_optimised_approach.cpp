@@ -22,8 +22,7 @@ public:
     }
 };
 
-TreeNode *takeInput()
-{
+TreeNode *takeInput() {
     static int index = 0;
 
     string rootval;
@@ -45,8 +44,7 @@ TreeNode *takeInput()
     return root;
 }
 
-int lca(TreeNode* root, int a, int b)
-{
+int lca(TreeNode* root, int a, int b) {
     if(a < root->val && b < root->val){
         return lca(root->left, a, b);
     }
@@ -56,8 +54,7 @@ int lca(TreeNode* root, int a, int b)
     else return root->val;
 }
 
-int main()
-{
+int main() {
     int n;
     cin >> n;
     TreeNode *root = takeInput();
