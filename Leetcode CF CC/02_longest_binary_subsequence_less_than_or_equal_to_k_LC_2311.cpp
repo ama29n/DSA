@@ -21,3 +21,7 @@ public:
         return cal(n - 1, s, 0, k, dp);
     }
 };
+
+// Here the concept to learn is that if pow(2, num) exceeds the range then it wont give error 
+// it will become false and hence the if condition won't be executed
+
