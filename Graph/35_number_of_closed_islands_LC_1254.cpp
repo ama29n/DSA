@@ -1,8 +1,17 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// Given a 2D grid consists of 0s (land) and 1s (water).  An island is a maximal 4-directionally connected group of 
+// 0s and a closed island is an island totally (all left, top, right, bottom) surrounded by 1s.
+
+// Return the number of closed islands.
+
 class Solution {
 public:
+
+    // We will make all the islands of 0s touching border 1
+    // Then calculate the number of remaining islands
+
     void makeVisited(int i, int j, vector<vector<int>> &grid, int m, int n) {
         if(i >= m || i < 0 || j >= n || j < 0 || grid[i][j] == 1)
             return;

@@ -1,8 +1,16 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// Given an m x n matrix board containing 'X' and 'O', capture all regions that are 4-directionally surrounded by 'X'.
+
+// A region is captured by flipping all 'O's into 'X's in that surrounded region.
+
 class Solution {
 public:
+
+    // We will traverse the border only and make all the regions touching border of 'O' same and other all 
+    // occurences of 'O' become 'X'
+
     void solve(vector<vector<char>>& board) {
         int m = board.size();
         int n = board[0].size();
