@@ -55,13 +55,16 @@ int minPathSum(vector<vector<int>>& grid) {
 
 // Tabulation
 
+// This solution is derived from memoization solution
 int minPathSum(vector<vector<int>>& grid) {
     int row = grid.size(), col = grid[0].size();
     vector<vector<int>> dp(row, vector<int> (col, -1));
     
     for(int i = 0; i < row; i++) {
         for(int j = 0; j < col; j++) {
-            if(i == 0 && j == 0) dp[i][j] = grid[i][j];
+            if(i == 0 && j == 0) { 
+                dp[i][j] = grid[i][j];
+            }
             else {
                 int left = INT_MAX, up = INT_MAX;
                 if(i > 0) up = min(up, dp[i - 1][j]);
@@ -74,35 +77,27 @@ int minPathSum(vector<vector<int>>& grid) {
     return dp[row - 1][col - 1];
 }
 
-
-// Best Solution
+// This solution is generic in terms of the idea that we start from the bottom right corner and we 
+// come at the top left corner making the smallest possible path
 class Solution {
 public:
-    int solve(int row, int col, vector<vector<int>>& grid) {
-        if(row == 0 && col == 0)
-            return grid[0][0];
-        if(row < 0 || col < 0) 
-            return 20001;
-        int up = solve(row - 1, col, grid);
-        int left = solve(row, col - 1, grid);
-        return grid[row][col] + min(up, left);
-    }
     int minPathSum(vector<vector<int>>& grid) {
-        int row = grid.size(), col = grid[0].size();
-        vector<vector<int>> dp(row + 1, vector<int> (col + 1, 0));
-        
-        for(int i = 0; i <= row; i++) dp[i][0] = 20001;
-        for(int j = 0; j <= col; j++) dp[0][j] = 20001;
-        
-        for(int i = 1; i <= row; i++) {
-            for(int j = 1; j <= col; j++) {
-                if(i == 1 && j == 1)
-                    dp[i][j] = grid[i - 1][j - 1];
-                else {
-                    dp[i][j] += grid[i - 1][j - 1] + min(dp[i - 1][j], dp[i][j - 1]);
+        int m = grid.size(), n = grid[0].size();
+        vector<vector<int>> dp(m, vector<int> (n));
+        for(int i = m - 1; i >= 0; i--) {
+            for(int j = n - 1; j >= 0; j--) {
+                if(i == m - 1 && j == n - 1) {
+                    dp[i][j] = grid[i][j];
+                } else {
+                    int down = INT_MAX, right = INT_MAX;
+                    if(i < m - 1)
+                        down = dp[i + 1][j];
+                    if(j < n - 1)
+                        right = dp[i][j + 1];
+                    dp[i][j] = min(down, right) + grid[i][j];
                 }
             }
         }
-        return dp[row][col];
+        return dp[0][0];
     }
 };

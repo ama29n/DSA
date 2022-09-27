@@ -48,27 +48,26 @@ int minimumTotal(vector<vector<int>>& triangle) {
 
 // Tabulation
 
-int minimumTotal(vector<vector<int>>& triangle) {
-    if(triangle.size() == 1) return triangle[0][0];
-    
-    int rows = triangle.size();
-    vector<vector<int>> dp(rows, vector<int> (rows, -1));
-    
-    for(int i = 0; i < rows; i++) {
-        for(int j = 0; j < i + 1; j++) {
-            if(i == 0 && j == 0) dp[i][j] = triangle[i][j];
-            else {
-                int up = 100000, diaUp = 100000;
-                if(j <= i - 1 && i - 1 >= 0) up = dp[i - 1][j];
-                if(j - 1 <= i - 1 && i - 1 >= 0 && j - 1 >= 0) diaUp = dp[i - 1][j - 1];
-                dp[i][j] = triangle[i][j] + min(up, diaUp);
+class Solution {
+public:
+    // 2
+    // 3 4
+    // 6 5 7
+    // 4 1 8 3
+    int minimumTotal(vector<vector<int>>& triangle) {
+        int m = triangle.size(), n = triangle[m - 1].size();
+        vector<vector<int>> dp(m, vector<int> (n, 0));
+        for(int i = m - 1; i >= 0; i--) {
+            int k = triangle[i].size() - 1;
+            for(int j = k; j >= 0; j--) {
+                if(i == m - 1) {
+                    dp[i][j] = triangle[i][j];
+                } else {
+                    int d = dp[i + 1][j], r = dp[i + 1][j + 1];
+                    dp[i][j] = min(d, r) + triangle[i][j];
+                }
             }
         }
+        return dp[0][0];
     }
-    int minPath = INT_MAX;
-    for(auto it : dp[rows - 1])
-        minPath = min(minPath, it);
-    
-    return minPath;
-}
-
+};
