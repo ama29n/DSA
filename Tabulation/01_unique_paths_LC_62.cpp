@@ -1,6 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// Here dp[i][j] will represent the number of ways from i, j to m - 1, n - 1
 class Solution {
 public:
     int uniquePaths(int m, int n) {

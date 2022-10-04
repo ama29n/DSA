@@ -3,22 +3,26 @@ using namespace std;
 
 class Solution{
 public:
-    int find(int i, int w, int val[], int weight[], vector<vector<int>>& dp) {
-        if(w == 0)
-            return 0;
+    int cal(int i, int n, int W, vector<int>& profit, vector<int>& wt, vector<vector<int>>& dp) {
         // Here, we are not using the if condition of 20th question because here we don't need to complete the target w / wt[0] 
         // will automatically give the highest integer value less than or equal to w.
-        if(i == 0)
-            return (w / weight[0] * val[0]);
-        if(dp[i][w] != -1)
-            return dp[i][w];
-            
-        int notTake = find(i - 1, w, val, weight, dp);
-        int take = INT_MIN;
-        if(weight[i] <= w) 
-            take = val[i] + find(i, w - weight[i], val, weight, dp);
-        return dp[i][w] = max(take, notTake);
+        if(i == n - 1)
+            return (W / wt[i]) * profit[i];
+        if(dp[i][W] != -1)
+            return dp[i][W];
+        int notTake = cal(i + 1, n, W, profit, wt, dp);
+        int take = 0;
+        if(wt[i] <= W)
+            take = profit[i] + cal(i, n, W - wt[i], profit, wt, dp);
+        return dp[i][W] = max(take, notTake);
     }
+    int unboundedKnapsack(int n, int W, vector<int> &profit, vector<int> &weight) {
+        vector<vector<int>> dp(n, vector<int> (W + 1, -1));
+        return cal(0, n, W, profit, weight, dp);
+    }
+
+
+
     int knapSack(int n, int w, int val[], int weight[]) {
         vector<vector<int>> dp(n, vector<int> (w + 1, 0));
         for(int i = 0; i < n; i++)

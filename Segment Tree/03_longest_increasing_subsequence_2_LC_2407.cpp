@@ -1,21 +1,19 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int maxN = 100000 + 1;
-
 class Solution {
 public:
     class SegmentTree {
         public:
         vector<int> seg;
-        SegmentTree() {
+        int maxN;
+		
+        SegmentTree(int n) : maxN(n) {
             seg = vector<int>(maxN * 4 + 10, 0);
         }
-
         int query(int l, int r) {
             return query_util(0, 0, maxN - 1, l, r);
         }
-
         int query_util(int i, int low, int high, int l, int r) {
             if(low >= l && high <= r)
                 return seg[i];
@@ -26,18 +24,16 @@ public:
             int right = query_util(2 * i + 2, mid + 1, high, l, r);
             return max(left, right);
         }
-        
         void update(int len, int ele) {
             update_util(0, 0, maxN - 1, ele, len);
         }
-        
         void update_util(int i, int low, int high, int ele, int len) {
             if(low == high) {
                 seg[i] = len;
                 return;
             }
             int mid = low + (high - low) / 2;
-            if(low <= ele && ele <= mid) {
+            if(ele <= mid) {
                 update_util(2 * i + 1, low, mid, ele, len);
             } else {
                 update_util(2 * i + 2, mid + 1, high, ele, len);
@@ -45,13 +41,20 @@ public:
             seg[i] = max(seg[2 * i + 1], seg[2 * i + 2]);
         }
     };
+	
     int lengthOfLIS(vector<int>& nums, int k) {
-        SegmentTree seg;
+        int max_ele = nums[0];
+        for(auto it : nums)
+            max_ele = max(max_ele, it);
+			
+        SegmentTree seg(max_ele + 1);
+        
         for(auto it : nums) {
             int lower = max(0, it - k);
             int longestIncreasingBefore = 1 + seg.query(lower, it - 1);
             seg.update(longestIncreasingBefore, it);
         }
-        return seg.query(1, maxN - 1);
+        
+        return seg.query(1, max_ele);
     }
 };

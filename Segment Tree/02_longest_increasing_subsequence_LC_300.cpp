@@ -45,7 +45,7 @@ public:
                 return;
             }
             int mid = (low + high) / 2;
-            if(low <= ele && ele <= mid) {
+            if(ele <= mid) {
                 update_util(2 * i + 1, low, mid, ele, len);
             } else {
                 update_util(2 * i + 2, mid + 1, high, ele, len);
@@ -57,6 +57,7 @@ public:
     int lengthOfLIS(vector<int>& nums) {
         int n = nums.size();
         SegmentTree seg;
+        
         // Offsetting, the minimum element can be -10000
         for(int i = 0; i < n; i++)
             nums[i] += 10000;

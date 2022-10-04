@@ -8,7 +8,7 @@ using namespace std;
 
 
 
-// Memoisation
+// Memoization
 
 // here dp array is 1001 becuase the limit on value of arr[i] is 1000
 

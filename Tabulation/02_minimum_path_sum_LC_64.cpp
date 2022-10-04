@@ -1,6 +1,8 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+
+// Here dp[i][j] will represent the minimum path from grid[i][j] to grid[m - 1][n - 1]
 class Solution {
 public:
     int minPathSum(vector<vector<int>>& grid) {

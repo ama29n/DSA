@@ -1,6 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// here dp[i][t] will reprent if it is possible to make sum t with elements upto i index
 bool subsetSumToK(int n, int k, vector<int> &arr) {
     vector<vector<bool>> dp(n + 1, vector<bool> (k + 1));
     for(int idx = 0; idx <= n; idx++) {
