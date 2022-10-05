@@ -10,24 +10,15 @@ using namespace std;
 class Solution {
 public:
     void merge(vector<int>& arr, int l, int mid, int r) {
-        int n1 = mid - l + 1;
-        int n2 = r - mid;
-        vector<int> subarr1, subarr2;
-        for(int i = 0; i < n1; i++)
-            subarr1.push_back(arr[l + i]);
-        for(int i = 0; i < n2; i++)
-            subarr2.push_back(arr[mid + 1 + i]);
-        int i = 0, j = 0, k = l;
-        while(i < n1 && j < n2) {
-            if(subarr1[i] <= subarr2[j])
-                arr[k++] = subarr1[i++];
-            else
-                arr[k++] = subarr2[j++];
+        vector<int> nums(r - l + 1);
+        int i = l, j = mid + 1, k = 0;
+        while(k < nums.size()) {
+            int num1 = i > mid ? INT_MAX : arr[i];
+            int num2 = j > r ? INT_MAX : arr[j];
+            nums[k++] = num1 <= num2 ? arr[i++] : arr[j++];
         }
-        while(i < n1)
-            arr[k++] = subarr1[i++];
-        while(j < n2)
-            arr[k++] = subarr2[j++];
+        for(int idx = 0; idx < nums.size(); idx++)
+            arr[l + idx] = nums[idx];
     }
     int mergeSort(vector<int>& nums, int l, int r) {
         if(l == r)
@@ -46,5 +37,22 @@ public:
     }
     int reversePairs(vector<int>& nums) {
         return mergeSort(nums, 0, nums.size() -  1);
+    }
+};
+
+// Multiset Solution, gives TLE
+class Solution {
+public:
+    typedef long long ll;
+    int reversePairs(vector<int>& nums) {
+        int ans = 0;
+        multiset<ll> s;
+        for(auto it : nums) {
+            auto iter = s.upper_bound((ll)it * 2);
+            int dis = distance(iter, s.end());
+            ans += dis;
+            s.insert((ll)it);
+        }
+        return ans;
     }
 };
