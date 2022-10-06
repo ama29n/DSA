@@ -11,11 +11,10 @@ class Solution {
                if(i == 0 || w == 0) {
                    dp[i][w] = 0;
                } else {
-                   int notTake = dp[i - 1][w];
-                   int take = 0;
                    if(wt[i - 1] <= w)
-                        take = dp[i - 1][w - wt[i - 1]] + val[i - 1];
-                   dp[i][w] = max(take, notTake);
+                        dp[i][w] = max(dp[i - 1][w - wt[i - 1]] + val[i - 1], dp[i - 1][w]);
+                    else 
+                    dp[i][w] = dp[i - 1][w];
                }
            }
        }
