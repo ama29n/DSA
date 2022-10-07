@@ -6,6 +6,8 @@ using namespace std;
 
 // Find pairs such that nums[i] > 2 * nums[j] where i < j
 
+// Time complexity O(n log n)
+
 // Segment Tree Solution
 class Solution {
 public:
