@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// https://leetcode.com/problems/number-of-excellent-pairs/
+
 class Solution {
 public:
     typedef long long ll;

@@ -1,18 +1,22 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// https://leetcode.com/problems/maximum-xor-after-operations/
 
 // You are given a 0-indexed integer array nums. In one operation, select any non-negative integer x and an index i, 
 // then update nums[i] to be equal to nums[i] AND (nums[i] XOR x).
-
 // Note that AND is the bitwise AND operation and XOR is the bitwise XOR operation.
-
 // Return the maximum possible bitwise XOR of all elements of nums after applying the operation any number of times.
 
-
-
-
-
+class Solution {
+public:
+    int maximumXOR(vector<int>& nums) {
+        int ans = 0;
+        for(auto it : nums)
+            ans |= it;
+        return ans;
+    }
+};
 
 // WHY A SIMPLE OR IS WORKING.
 // Must Know:
@@ -51,13 +55,3 @@ using namespace std;
 // nums[i] AND Y
 // lets 10 AND Y
 // the best things we can do according to the need of our problem is => 00 (toogle the 1 to 0 (when Y=00 ) but never able to make 11
-
-class Solution {
-public:
-    int maximumXOR(vector<int>& nums) {
-        int ans = 0;
-        for(auto it : nums)
-            ans |= it;
-        return ans;
-    }
-};
