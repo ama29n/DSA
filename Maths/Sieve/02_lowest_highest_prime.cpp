@@ -9,10 +9,8 @@ int main() {
     isPrime[0] = isPrime[1] = false;
     for(int i = 2; i < size; i++) {
         if(isPrime[i]) {
-
             // If a number is prime itself, it's hp and lp is the number itself
             lp[i] = hp[i] = i;
-            
             for(int j = 2 * i; j < size; j += i) {
                 isPrime[j] = false;
                 hp[j] = i;
