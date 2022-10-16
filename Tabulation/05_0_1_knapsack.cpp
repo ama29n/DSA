@@ -14,7 +14,7 @@ class Solution {
                    if(wt[i - 1] <= w)
                         dp[i][w] = max(dp[i - 1][w - wt[i - 1]] + val[i - 1], dp[i - 1][w]);
                     else 
-                    dp[i][w] = dp[i - 1][w];
+                        dp[i][w] = dp[i - 1][w];
                }
            }
        }
