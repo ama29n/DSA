@@ -23,11 +23,11 @@ public:
             Help h = q.front();
             q.pop();
             int i = h.i, j = h.j, k = h.k, steps = h.steps;
-            
             if(i < 0 || j < 0 || i == m || j == n)
                 continue;
             if(i == m - 1 && j == n - 1) {
                 ans = min(ans, steps);
+                continue;
             }
             if(grid[i][j] == 1) {
                 if(k < 1)
@@ -37,7 +37,6 @@ public:
             if(vis[i][j] != -1 && vis[i][j] >= k)
                 continue;
             vis[i][j] = k;
-            
             Help u(i - 1, j, k, steps + 1); q.push(u);
             Help d(i + 1, j, k, steps + 1); q.push(d);
             Help l(i, j - 1, k, steps + 1); q.push(l);
