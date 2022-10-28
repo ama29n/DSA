@@ -5,8 +5,9 @@ using namespace std;
 // Time = 2 raised to power n
 // Space = O(n) i.e., the stack space 
 
-// Memoization
+// https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/
 
+// Memoization
 int cal(int i, int buy, vector<int>& prices, vector<vector<int>>& dp) {
     if(i == prices.size() - 1) {
         if(buy)
@@ -36,7 +37,6 @@ int maxProfit(vector<int>& prices) {
 }
 
 // Tabulation
-
 int maxProfit(vector<int>& prices) {
     int n = prices.size();
     vector<vector<int>> dp(n + 1, vector<int> (2, 0));
