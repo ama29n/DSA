@@ -1,83 +1,57 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// For arrays
-class Solution {   
-    // n = 6
-    // 0 1 2 3 4 5
-    // l = 0, r = 5, mid = 2
-    public:
-    void merge(int arr[], int l, int mid, int r) {
-         int n1 = mid - l + 1;
-         int n2 = r - mid;
-         int subarr1[n1], subarr2[n2];
-         for(int i = 0; i < n1; i++)
-            subarr1[i] = arr[l + i];
-         for(int i = 0; i < n2; i++)
-            subarr2[i] = arr[mid + 1 + i];
-         int i = 0, j = 0, k = l;
-         while(i < n1 && j < n2) {
-             if(subarr1[i] <= subarr2[j]) {
-                 arr[k] = subarr1[i];
-                 i++, k++;
-             } else {
-                 arr[k] = subarr2[j];
-                 j++, k++;
-             }
-         }
-         while(i < n1) {
-             arr[k] = subarr1[i];
-             i++, k++;
-         } 
-         while(j < n2) {
-             arr[k] = subarr2[j];
-             j++, k++;
-         }
-    }
-    void mergeSort(int arr[], int l, int r) {
-        if(l >= r)
-            return;
-        int mid = l + (r - l) / 2;
-        mergeSort(arr, l, mid);
-        mergeSort(arr, mid + 1, r);
-        merge(arr, l, mid, r);
-    }
-};
+// Merge Sort
 
-// For vector 
-void merge(vector<int>& arr, int l, int mid, int r) {
-    int n1 = mid - l + 1;
-    int n2 = r - mid;
-    vector<int> subarr1, subarr2;
-    for(int i = 0; i < n1; i++)
-        subarr1.push_back(arr[l + i]);
-    for(int i = 0; i < n2; i++)
-        subarr2.push_back(arr[mid + 1 + i]);
-    // i for subarr1, j for subarr2, k for arr
-    int i = 0, j = 0, k = l;
-    while(i < n1 && j < n2) {
-        if(subarr1[i] <= subarr2[j]) {
-            arr[k] = subarr1[i];
-            i++, k++;
-        } else {
-            arr[k] = subarr2[j];
-            j++, k++;
-        }
+// Average, Worst & Best TC -> O(n log(n))
+// Space -> O(n)
+
+// In Merge Sort, the given unsorted array with n elements, is divided into n subarrays, each having one element, 
+// because a single element is always sorted in itself. Then, it repeatedly merges these subarrays, 
+// to produce new sorted subarrays, and in the end, one complete sorted array is produced.
+
+// The concept of Divide and Conquer involves three steps:
+// Divide: the problem into multiple small problems.
+// Conquer: the subproblems by solving them. The idea is to break down the problem into atomic subproblems, where they are actually solved.
+// Combine: the solutions of the subproblems to find the solution of the actual problem.
+
+// Algorithm 
+// We take "l" as the starting index of the array and "r" as the end index of the array.
+// Then we find the middle of the array as "m = (l + r) / 2", and divide the array into 2 subarrays from "l" to "m" and "m + 1" to "r".
+// Then we keep on dividing these subarrays into furthur subarrays until we are left with 1 element.
+// Then we start merging these subarrays in sorted manner.
+
+void merge(vector<int>& v, int l, int m, int r) {
+    int size = r - l + 1;
+    vector<int> nums(size);
+    int i = l, j = m + 1, k = 0;
+    while(k < size) {
+        int x = i > m ? INT_MAX : v[i];
+        int y = j > r ? INT_MAX : v[j];
+        nums[k++] = x <= y ? v[i++] : v[j++];
     }
-    while(i < n1) {
-        arr[k] = subarr1[i];
-        i++, k++;
-    }
-    while(j < n2) {
-        arr[k] = subarr2[j];
-        j++, k++;
-    }
+    for(int i = 0; i < size; i++) 
+        v[l + i] = nums[i];
 }
-void mergeSort(vector<int>& arr, int l, int r) {
+
+void mergeSort(vector<int>& v, int l, int r) {
     if(l >= r)
         return;
-    int mid = l + (r - l) / 2;
-    mergeSort(arr, l, mid);
-    mergeSort(arr, mid + 1, r);
-    merge(arr, l, mid, r);
+    int m = (l + r) / 2;
+    mergeSort(v, l, m);        // T(n / 2)
+    mergeSort(v, m + 1, r);    // T(n / 2) 
+    merge(v, l, m, r);         // n
+}
+
+/*.....................................................................*/
+
+int main() {
+    // Size of array
+    int n;
+    cin >> n;
+    vector<int> v(n);
+    for(int i = 0; i < n; i++) {
+        cin >> v[i];
+    }
+    mergeSort(v, 0, n - 1);
 }
