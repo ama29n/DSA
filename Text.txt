@@ -1,0 +1,44 @@
+1. char to string
+    char c = 'E';
+    string str;
+    str += c;
+
+2. Number of substrings through ith index, n = size of string
+    (i + 1) * (n - i) 
+
+3. n() = Number of set bits
+    n(A and B) + n(A or B) = n(A) + n(B)
+
+4. A + B = (A ^ B) + 2 * (A & B)
+
+5. While finding average
+    (sum + i) / (i + 1) = ceil(double(sum) / (i + 1));
+
+6. Number -> Binary String 
+    int n;
+    string s;
+    while(n) {
+        s += (n % 2) + '0';
+        n /= 2;
+    }
+
+7. Count of set bits 
+    int n;
+    int set_count = 0;
+    while(n != 0) {
+        set_count++;
+        n = n & (n - 1);
+    }
+
+8. If 2 arrays are given of same size = n, containing elements from 0 to n - 1, and we want one array sorted 
+    and other should change according to the same permutation
+
+    vector<int> map(n);
+    for(int i = 0; i < n; i++) {
+        map[nums2[i]] = i;
+    }
+    for(int i = 0; i < n; i++) {
+        nums2[map[nums1[i]]] = i;
+        nums1[i] = i;
+    }
+
