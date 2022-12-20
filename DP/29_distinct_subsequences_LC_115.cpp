@@ -1,6 +1,9 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// https://leetcode.com/problems/distinct-subsequences/
+
+// Given two strings s and t, return the number of distinct subsequences of s which equals t.
 
 // Memoization
 int count(int i, string s, int j, string t, vector<vector<int>>& dp) {
@@ -12,7 +15,6 @@ int count(int i, string s, int j, string t, vector<vector<int>>& dp) {
         return 1;
     if(dp[i][j] != -1)
         return dp[i][j];
-    
     if(s[i] == t[j]) 
         return dp[i][j] = count(i - 1, s, j - 1, t, dp) + count(i - 1, s, j, t, dp);
     else 

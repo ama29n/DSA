@@ -3,6 +3,12 @@ using namespace std;
 
 // https://leetcode.com/problems/minimum-score-of-a-path-between-two-cities/
 
+// Given a graph having nodes from 1 to n, is undirectional and can be disconnected.
+// Given edges between nodes (x, y) and w (weight).
+// Return minimum possible score of path between 1 and n node.
+// Minimum score of path is minimum weight node between 1 and n. We don't need to directly reach from 1 to n
+// we can go diferent path from destination to get the minimum weight edge.
+
 class Solution {
 public:
     int minScore(int n, vector<vector<int>>& roads) {
@@ -15,6 +21,7 @@ public:
         queue<int> q;
         q.push(1);
         vis[1] = 1;
+        // We will mark all the nodes that are connected to 1
         while(!q.empty()) {
             int node = q.front();
             q.pop();
@@ -26,6 +33,7 @@ public:
             }
         }
         int min_path = INT_MAX;
+        // If both the nodes are connected to 1 somehow, we get the min weight
         for(auto it : roads) {
             if(vis[it[1]] && vis[it[0]] && it[2] < min_path) 
                 min_path = it[2];

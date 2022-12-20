@@ -23,7 +23,7 @@ void solve() {
         int x = 32 - __builtin_clz(v[i] ^ v[i + 1]);
         v[i] = (v[i] < v[i + 1] ? -1 : 1) * x;
     }
-    map<int,int> m;
+    map<int, int> m;
     int ans = 1;
     for(int i = 0, left = 0; i + 1 < n; i++) {
         if(m.find(-v[i]) != m.end()) {
