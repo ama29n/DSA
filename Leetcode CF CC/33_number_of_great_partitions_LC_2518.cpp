@@ -44,7 +44,8 @@ public:
         for(int i = 2; i <= n; i++) {
             y *= 2; y %= mod;
         }
-        y -= 2;        // Subtracting sequences whose partition is not possible i.e., {} and {all elements of nums[]}
+        // Subtracting sequences whose partition is not possible i.e., {} and {all elements of nums[]}
+        y -= 2;        
         ll ans = ((y - ((2 * x) % mod)) + mod) % mod;
         return ans;
     }
