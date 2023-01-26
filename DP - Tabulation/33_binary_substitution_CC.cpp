@@ -15,6 +15,9 @@ const int mod = 998244353; const string yes = "YES", no = "NO"; typedef long lon
 
 /*.....................................................................*/
 
+// If 2 consecutive alphabets are same, then the count will remain same
+// else, add dp[i - 2]
+
 void solve() {
     string s;
     cin >> s;
