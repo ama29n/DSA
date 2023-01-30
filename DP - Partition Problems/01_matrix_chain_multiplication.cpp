@@ -32,8 +32,8 @@ public:
     }
 };
 
-// Space - O(n ^ 2) ignoring recursion stack space
 // Time - O(n ^ 3)
+// Space - O(n ^ 2) ignoring recursion stack space
 
 class Solution{
 public:
