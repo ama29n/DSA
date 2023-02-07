@@ -11,8 +11,9 @@ void sort_1(vector<int>& v, int n) {
     // Algorithm
     for(int i = 0; i < n - 1; i++) {
         for(int j = 0; j < n - i - 1; j++) {
-            if(v[j] > v[j + 1])
+            if(v[j] > v[j + 1]) {
                 swap(v[j], v[j + 1]);
+            }
         }
     }
     // This algorithm always runs O(n ^ 2) times even if the array is sorted.

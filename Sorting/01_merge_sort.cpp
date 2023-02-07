@@ -30,13 +30,15 @@ void merge(vector<int>& v, int l, int m, int r) {
         int y = j > r ? INT_MAX : v[j];
         nums[k++] = x <= y ? v[i++] : v[j++];
     }
-    for(int i = 0; i < size; i++) 
+    for(int i = 0; i < size; i++) {
         v[l + i] = nums[i];
+    }
 }
 
 void mergeSort(vector<int>& v, int l, int r) {
-    if(l >= r)
+    if(l >= r) {
         return;
+    }
     int m = (l + r) / 2;
     mergeSort(v, l, m);        // T(n / 2)
     mergeSort(v, m + 1, r);    // T(n / 2) 

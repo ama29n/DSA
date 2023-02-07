@@ -14,10 +14,12 @@ using namespace std;
 int partition(vector<int>& v, int l, int r) {
     int pivot = l, i = l, j = r;
     while(i <= j) {
-        while(i <= r && v[i] <= v[pivot])
+        while(i <= r && v[i] <= v[pivot]) {
             i++;
-        while(j > l && v[j] > v[pivot])
+        }
+        while(j > l && v[j] > v[pivot]) {
             j--;
+        }
         if(i < j) {
             swap(v[i], v[j]);
         }
@@ -27,8 +29,9 @@ int partition(vector<int>& v, int l, int r) {
 }
 
 void quickSort(vector<int>& v, int l, int r) {
-    if(l >= r)
+    if(l >= r) {
         return;
+    }
     int p = partition(v, l, r);    // n
     quickSort(v, l, p - 1);        // T(n / 2)
     quickSort(v, p + 1, r);        // T(n / 2) 
