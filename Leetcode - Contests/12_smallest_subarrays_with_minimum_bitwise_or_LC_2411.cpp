@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// https://leetcode.com/problems/smallest-subarrays-with-maximum-bitwise-or/
+
 // You are given a 0-indexed array nums of length n, consisting of non-negative integers. For each index i from 0 to n - 1, 
 // you must determine the size of the minimum sized non-empty subarray of nums starting at i (inclusive) that has the maximum 
 // possible bitwise OR.
@@ -20,14 +22,23 @@ class Solution {
 public:
     vector<int> smallestSubarrays(vector<int>& nums) {
         int n = nums.size();
-        vector<int> last(30, 0), res(n, 1);
+        vector<int> bitset(32, -1);
+        vector<int> ans(n, 0);
         for(int i = n - 1; i >= 0; i--) {
-            for(int j = 0; j < 30; j++) {
-                if(nums[i] & (1 << j))
-                    last[j] = i;
-                res[i] = max(res[i], last[j] - i + 1);
+            for(int j = 0; j < 32; j++) {
+                int x = 1 << j;
+                if(x & nums[i]) {
+                    bitset[j] = i;
+                }
             }
+            int d = 0;
+            for(auto it : bitset) {
+                if(it != -1) {
+                    d = max(d, it);
+                }
+            }
+            ans[i] = d == 0 ? 1 : d - i + 1;
         }
-        return res;
+        return ans;
     }
 };

@@ -5,15 +5,15 @@ vector<int> find_lps(string pattern) {
     int n = pattern.size();
     vector<int> lps(n);
     lps[0] = -1;
-    int k = -1;
-    for(int q = 1; q < n; q++) {
-        while(k > -1 && pattern[k + 1] != pattern[q]) {
-            k = lps[k];
+    int q = -1;
+    for(int i = 1; i < n; i++) {
+        while(q > -1 && pattern[q + 1] != pattern[i]) {
+            q = lps[q];
         }
-        if(pattern[k + 1] == pattern[q]) {
-            k++;
+        if(pattern[q + 1] == pattern[i]) {
+            q += 1;
         }
-        lps[q] = k;
+        lps[i] = q;
     }
     return lps;
 }

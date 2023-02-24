@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// https://leetcode.com/problems/largest-combination-with-bitwise-and-greater-than-zero/
+
 // You are given an array of positive integers candidates. 
 // Evaluate the bitwise AND of every combination of numbers of candidates. Each number in candidates may only be used 
 // once in each combination.
@@ -10,13 +12,15 @@ using namespace std;
 class Solution {
 public:
     int largestCombination(vector<int>& candidates) {
-        int max_ele = *max_element(candidates.begin(), candidates.end());
         int ans = 0;
-        for(int b = 1; b <= max_ele; b <<= 1) {
+        for(int i = 0; i < 32; i++) {
+            int x = 1 << i;
             int count = 0;
-            for(auto &it : candidates)
-                if((b & it) > 0)
+            for(auto it : candidates) {
+                if(it & x) {
                     count++;
+                }
+            }
             ans = max(ans, count);
         }
         return ans;

@@ -3,19 +3,18 @@ using namespace std;
 
 // https://codeforces.com/problemset/problem/1742/G
 
-#define pb            push_back
-#define mem(a, i)     memset(a, i, sizeof(a))
-#define ff            first
-#define ss            second
-#define all(v)        v.begin(), v.end()
-#define rall(v)       v.rbegin(), v.rend()
-#define forn(i, n)    for(int i = 0; i < n; i++)
+#define forn(i, s, n)    for(int i = s; i < n; i++)
+#define pb               push_back
+#define all(v)           v.begin(), v.end()
+#define sp               << ' '
+#define nl               << '\n'
+#define endl             '\n'
 
 // This approach fails because maximum element doesn't means maximum OR.
 void solve() {
     int n; cin >> n;
     vector<int> v(n);
-    forn(i, n) cin >> v[i];
+    forn(i, 0, n) cin >> v[i];
     vector<int> ans;
     vector<int> vis(n, 0);
     int num = 31 - __builtin_clz(*max_element(all(v)));
@@ -32,7 +31,7 @@ void solve() {
         vis[idx] = 1;
         ans.pb(v[idx]);
     }
-    forn(i, n) if(!vis[i]) ans.pb(v[i]);
+    forn(i, 0, n) if(!vis[i]) ans.pb(v[i]);
     for(auto it : ans) cout << it << " ";
     cout << endl;
 }
@@ -42,30 +41,32 @@ void solve() {
     int n;
     cin >> n;
     vector<int> v(n);
-    forn(i, n)
+    forn(i, 0, n) {
         cin >> v[i];
-    vector<int> ans;
+    }
     vector<int> vis(n, 0);
-    int num = 31 - __builtin_clz(*max_element(all(v)));
     int prev_or = 0;
-    for(int i = 0; i <= num && ans.size() < n; i++) {
-        int mx = 0, idx = -1;
-        for(int j = 0; j < n; j++) {
-            if(vis[j])
-                continue;
-            if((prev_or | v[j]) > mx) {
+    for(int i = 0; i < 32 && i < n; i++) {
+        int cur_or = prev_or, idx = INT_MAX;
+        forn(j, 0, n) {
+            if(vis[j] == 0 && (prev_or | v[j]) > cur_or) {
+                cur_or = prev_or | v[j];
                 idx = j;
-                mx = (prev_or | v[j]);
             }
         }
+        if(idx == INT_MAX) {
+            continue;
+        }
         vis[idx] = 1;
-        ans.push_back(v[idx]);
-        prev_or |= v[idx];
+        prev_or = cur_or;
+        cout << v[idx] sp;
     }
-
-    forn(i, n) if(!vis[i]) ans.pb(v[i]);
-    for(auto it : ans) cout << it << " ";
-    cout << endl;
+    forn(i, 0, n) {
+        if(!vis[i]) {
+            cout << v[i] sp;
+        }
+    }
+    cout nl;
 }
 
 int main() {

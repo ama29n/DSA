@@ -16,25 +16,25 @@ public:
         for(auto& it : nums) {
             it = it == k ? 0 : it > k ? 1 : -1;
         }
-        int idx = -1;
-        for(int i = 0; i < n; i++) {
+        int idx;
+        for(auto i = 0; i < n; i++) {
             if(nums[i] == 0) {
                 idx = i; break;
             }
         }
         unordered_map<int, int> map;
         int sum = 0;
-        for(int i = idx; i >= 0; i--) { // going left
-            sum += nums[i]; map[sum]++;
-        }
-        int ans = 0; sum = 0;
-        for(int i = idx; i < n; i++) { // going right 
+        for(int i = idx; i >= 0; i--) {             // going left
             sum += nums[i];
-            int x = -1 * sum;
-            ans += map[x];
-            x += 1; 
-            ans += map[x];
+            map[sum]++;
+        }
+        sum = 0;
+        int ans = 0;
+        for(int i = idx; i < n; i++) {              // going right
+            sum += nums[i];
+            ans += map[-sum];                       // if subarray is odd
+            ans += map[-(sum - 1)];                 // if subarray is even, median is left middle element
         }
         return ans;
     }
-}; 
+};
