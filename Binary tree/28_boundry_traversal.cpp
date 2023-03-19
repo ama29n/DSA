@@ -3,53 +3,64 @@ using namespace std;
 
 struct Node {
     int data;
-    Node* left, * right;
+    Node *left, *right;
 }; 
 
-void left(Node *root, vector<int> &v) {
-    Node *node = root->left;
-    while(node) {
-        if(!node->right && !node->left)
-            break;
-        v.push_back(node->data);
-        if(node->left)
-            node = node->left;
-        else
-            node = node->right;
+// https://practice.geeksforgeeks.org/problems/boundary-traversal-of-binary-tree/1 
+
+class Solution {
+public:
+    vector<int> ans;
+    void left(Node *root) {
+        Node *ptr = root;
+        while(ptr) {
+            if(!ptr->left && !ptr->right) {
+                break;
+            }
+            ans.push_back(ptr->data);
+            if(ptr->left) {
+                ptr = ptr->left;
+            } else {
+                ptr = ptr->right;
+            }
+        }
     }
-}
-void right(Node *root, stack<int> &s) {
-    Node *node = root->right;
-    while(node) {
-        if(!node->right && !node->left)
-            break;
-        s.push(node->data);
-        if(node->right)
-            node = node->right;
-        else 
-            node = node->left;
+    void bottom(Node *root) {
+        if(!root) {
+            return;
+        }
+        bottom(root->left);
+        if(!root->left && !root->right) {
+            ans.push_back(root->data);
+        }
+        bottom(root->right);
     }
-}
-void bottom(Node *root, vector<int> &v) {
-    if(!root)
-        return;
-    bottom(root->left, v);
-    if(!root->left && !root->right)
-        v.push_back(root->data);
-    bottom(root->right, v);
-}
-vector<int> boundary(Node *root) {
-    if(!root->left && !root->right)
-        return {root->data};
-    vector<int> v;
-    v.push_back(root->data);
-    left(root, v);
-    bottom(root, v);
-    stack<int> s;
-    right(root, s);
-    while(s.size()) {
-        v.push_back(s.top());
-        s.pop();
+    void right(Node *root) {
+        stack<int> s;
+        Node *ptr = root;
+        while(ptr) {
+            if(!ptr->left && !ptr->right) {
+                break;
+            }
+            s.push(ptr->data);
+            if(ptr->right) {
+                ptr = ptr->right;
+            } else {
+                ptr = ptr->left;
+            }
+        }
+        while(!s.empty()) {
+            ans.push_back(s.top()); s.pop();
+        }
     }
-    return v;
-}
+    vector<int> boundary(Node *root) {
+        if(!root->left && !root->right) {
+            return {root->data};
+        }
+        ans.push_back(root->data);
+        left(root->left);
+        bottom(root);
+        right(root->right);
+        return ans;
+    }
+};

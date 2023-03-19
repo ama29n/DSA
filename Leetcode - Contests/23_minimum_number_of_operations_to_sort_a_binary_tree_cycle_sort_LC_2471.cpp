@@ -33,43 +33,44 @@ public:
         }
         return swaps;
     }
-    int minSwaps(vector<int>& v, int n) {
+    int ans = 0;
+    void cal(vector<int> &v) {
+        int n = v.size();
         unordered_map<int, int> map;
-        for(int i = 0; i < n; i++)
-            map[v[i]] = i;
-        sort(v.begin(), v.end());
-        int swaps = 0;
-        vector<bool> vis(n, false);
         for(int i = 0; i < n; i++) {
-            if(vis[i] || map[v[i]] == i) 
+            map[v[i]] = i;
+        }
+        sort(v.begin(), v.end());
+        vector<int> vis(n, 0);
+        for(int i = 0; i < n; i++) {
+            if(vis[i] || map[v[i]] == i) {
                 continue;
-            int j = i, cycle_count = 0;
+            }
+            int j = i, swaps = 0;
             while(!vis[j]) {
                 vis[j] = true;
                 j = map[v[j]];
-                cycle_count++;
+                swaps++;
             }
-            swaps += (cycle_count > 0 ? cycle_count - 1 : 0);
+            ans += swaps > 0 ? swaps - 1 : 0;
         }
-        return swaps;
     }
     int minimumOperations(TreeNode* root) {
-        int ans = 0;
-        queue<TreeNode*> q;
+        if(!root) {
+            return ans;
+        }
+        queue<TreeNode *> q;
         q.push(root);
         while(!q.empty()) {
             int n = q.size();
             vector<int> v;
             while(n--) {
-                TreeNode *node = q.front();
-                q.pop();
-                v.push_back(node->val);
-                if(node->left)
-                    q.push(node->left);
-                if(node->right)
-                    q.push(node->right);
+                TreeNode *r = q.front(); q.pop();
+                v.push_back(r->val);
+                if(r->left) q.push(r->left); 
+                if(r->right) q.push(r->right);
             }
-            ans += minSwaps(v, v.size());
+            cal(v);
         }
         return ans;
     }

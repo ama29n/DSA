@@ -1,13 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// https://leetcode.com/problems/count-complete-tree-nodes/
-
 struct TreeNode {
     int val;
     TreeNode *right;
     TreeNode *left;
 };
+
+// https://leetcode.com/problems/count-complete-tree-nodes/
 
 class Solution {
 public:
