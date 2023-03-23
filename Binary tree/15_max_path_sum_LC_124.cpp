@@ -5,7 +5,7 @@ struct TreeNode {
     int val;
     TreeNode *right;
     TreeNode *left;
-};
+}; 
 
 // In this question one thing to note is that it is not necessary that the path passes through the root node
 // &

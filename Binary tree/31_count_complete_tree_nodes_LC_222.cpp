@@ -12,8 +12,9 @@ struct TreeNode {
 class Solution {
 public:
     int countNodes(TreeNode* root) {
-        if(!root)
+        if(!root) {
             return 0;
+        }
         TreeNode *l = root, *r = root;
         int ls = 0, rs = 0;
         while(l) {
@@ -22,8 +23,9 @@ public:
         while(r) {
             rs++; r = r->right;
         }
-        if(ls == rs)
+        if(ls == rs) {
             return (1 << ls) - 1;
+        }
         return 1 + countNodes(root->left) + countNodes(root->right);
     }
 };
