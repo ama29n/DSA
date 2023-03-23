@@ -4,14 +4,9 @@ using namespace std;
 struct ListNode {
     int val;
     ListNode *next;
-    ListNode() : val(0), next(nullptr) {}
-    ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
-// Indexing is from 1
-// Input: head = [1,2,3,4,5], left = 2, right = 4
-// Output: [1,4,3,2,5]
+// https://leetcode.com/problems/reverse-linked-list-ii/ 
 
 ListNode* reverseBetween(ListNode* head, int left, int right) {
     ListNode *prev = left == 1 ? NULL : head;

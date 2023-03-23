@@ -1,9 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Approach 1
-// It is to reverse the linked lists and then add them
-
 struct Node {
     int data;
     struct Node* next;
@@ -13,7 +10,7 @@ struct Node {
     }
 };
 
-
+// https://leetcode.com/problems/add-two-numbers/
 
 // Stack Approach
 //Function to add two numbers represented by linked list.
