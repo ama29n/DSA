@@ -1,0 +1,14 @@
+1. If the question demands for deleting nodes and there is a possibility that the first node can be deleted then, 
+    create a new head
+    new head -> next = head
+    prev = new head & ptr = head
+    and finally return new head -> next
+else if the first node can't be deleted then,
+    prev = NULL & ptr = head
+
+
+2. In questions relating to loop in a linked list always check for (fast != slow) rather than
+    (fast->next != slow->next)
+
+
+3. Whenever want to rotate right by k places, shift (n - k) times
