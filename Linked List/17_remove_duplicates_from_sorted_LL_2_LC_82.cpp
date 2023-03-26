@@ -8,8 +8,6 @@ struct ListNode {
 
 // https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/
 
-// Hint - Take a prev ptr and solve
-
 class Solution {
 public:
     ListNode* deleteDuplicates(ListNode* head) {

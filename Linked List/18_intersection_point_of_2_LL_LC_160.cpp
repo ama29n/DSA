@@ -4,23 +4,23 @@ using namespace std;
 struct ListNode {
     int val;
     ListNode *next;
-    ListNode() : val(0), next(nullptr) {}
-    ListNode(int x) : val(x), next(nullptr) {}
-    ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
-ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-    ListNode *a = headA, *b = headB;
-    while(a && b && a != b) {
-        a = a->next;
-        b = b->next;
-        
-        if(!a && !b)
-            return NULL;
-        if(!a) 
-            a = headB;
-        if(!b)
-            b = headA;
+// https://leetcode.com/problems/intersection-of-two-linked-lists/ 
+
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *l1, ListNode *l2) {
+        ListNode *a = l1, *b = l2;
+        while(a && b && a != b) {
+            a = a->next;
+            b = b->next;
+            if(!a && !b) {
+                return NULL;
+            }
+            a = a ? a : l2;
+            b = b ? b : l1;
+        }
+        return a;
     }
-    return a;
-}
+};
