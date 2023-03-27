@@ -12,15 +12,15 @@ public:
 
 class Solution {
 public:
-    Node *copyRandomList(Node *head) {
+    Node* copyRandomList(Node* head) {
         unordered_map<Node *, Node *> map;
         Node *ptr = head;
-        while (ptr) {
+        while(ptr) {
             map[ptr] = new Node(ptr->val);
             ptr = ptr->next;
         }
         ptr = head;
-        while (ptr) {
+        while(ptr) {
             map[ptr]->next = map[ptr->next];
             map[ptr]->random = map[ptr->random];
             ptr = ptr->next;

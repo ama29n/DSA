@@ -8,54 +8,45 @@ struct ListNode {
 
 // https://leetcode.com/problems/swapping-nodes-in-a-linked-list/ 
 
-int findLength(ListNode *head) {
-    int len = 0;
-    ListNode *ptr = head;
-    while(ptr) {
-        ptr = ptr->next;
-        len++;
+class Solution {
+public:
+    int findLen(ListNode *head) {
+        int len = 0; ListNode *ptr = head;
+        while(ptr) {
+            len++; ptr = ptr->next;
+        }
+        return len;
     }
-    return len;
-}
-ListNode* swapNodes(ListNode* head, int k) {
-    if(!head || !head->next)
-        return head;
-    
-    // length of list 
-    int n = findLength(head); 
-
-    ListNode *cur = head, *prev, *x, *prevX, *y, *prevY;
-
-    for(int i = 1; i < k; i++) {
-        prev = cur;
-        cur = cur->next;
+    ListNode* swapNodes(ListNode* head, int k) {
+        if(!head || !head->next) {
+            return head;
+        }
+        int n = findLen(head);
+        ListNode *prevX, *X, *prevY, *Y, *prev, *ptr;
+        // For kth element
+        prev = NULL; ptr = head; 
+        for(int i = 1; i < k; i++) {
+            prev = ptr;
+            ptr = ptr->next;
+        }
+        prevX = prev; X = ptr;
+        // For (n - k)th element
+        prev = NULL, ptr = head;
+        for(int i = 1; i <= (n - k); i++) {
+            prev = ptr;
+            ptr = ptr->next;
+        }
+        prevY = prev; Y = ptr;
+        // Replacing Algorithm
+        if(prevX) {
+            prevX->next = Y;
+        }
+        if(prevY) {
+            prevY->next = X;
+        }
+        ListNode *t = X->next;
+        X->next = Y->next;
+        Y->next = t;
+        return k == 1 ? Y : k == n ? X : head;
     }
-    x = cur, prevX = prev;
-    cur = head, prev = NULL;
-    for(int i = 1; i <= n - k; i++) {
-        prev = cur;
-        cur = cur->next;
-    }
-    y = cur, prevY = prev;
-    
-    // Main algorithm
-    if(prevX) {
-        prevX->next = y;
-    }
-
-    if(prevY) {
-        prevY->next = x;
-    }
-
-    ListNode *t = x->next;
-    x->next = y->next;
-    y->next = t;
-
-    if(k == 1)
-        return y;
-
-    if(k == n)
-        return x;
-    
-    return head; 
-}
+};

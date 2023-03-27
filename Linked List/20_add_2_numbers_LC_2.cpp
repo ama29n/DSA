@@ -12,47 +12,30 @@ struct Node {
 
 // https://leetcode.com/problems/add-two-numbers/
 
-// Stack Approach
-//Function to add two numbers represented by linked list.
-struct Node* addTwoLists(struct Node* l1, struct Node* l2) {
-    stack<Node*> s1, s2, s3;
-    Node *ptr = l1;
-    while(ptr) {
-        s1.push(ptr);
-        ptr = ptr->next;
-    }
-    ptr = l2;
-    while(ptr) {
-        s2.push(ptr);
-        ptr = ptr->next;
-    }
-    int carry = 0;
-    while(!s1.empty() || !s2.empty()) {
-        int a = 0, b = 0;
-        if(!s1.empty()) a = s1.top()->data;
-        if(!s2.empty()) b = s2.top()->data;
-        int c = a + b + carry;
-        carry = 0;
-        if(c >= 10) {
-            carry = 1;
-            c = c % 10;
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode *a = l1, *b = l2;
+        int carry = 0;
+        ListNode head(0), *ptr = &head;
+        while(a || b) {
+            int val = carry;
+            carry = 0;
+            val += a ? a->val : 0;
+            val += b ? b->val : 0;
+            a = a ? a->next : a;
+            b = b ? b->next : b;
+            if(val >= 10) {
+                carry = val / 10;
+                val %= 10;
+            }
+            ListNode *node = new ListNode(val);
+            ptr->next = node; ptr = ptr->next; 
         }
-        Node *node = new Node(c);
-        s3.push(node);
-        if(!s1.empty()) s1.pop();
-        if(!s2.empty()) s2.pop();
+        if(carry != 0) {
+            ListNode *node = new ListNode(carry);
+            ptr->next = node;
+        }
+        return head.next;
     }
-    if(carry == 1) {
-        Node *node = new Node(1);
-        s3.push(node);
-    }
-    Node *head = new Node(s3.top()->data);
-    s3.pop();
-    ptr = head;
-    while(!s3.empty()) {
-        ptr->next = s3.top();
-        ptr = ptr->next;
-        s3.pop();
-    }
-    return head;
-}
+};
