@@ -3,25 +3,21 @@ using namespace std;
 
 // https://leetcode.com/problems/number-of-pairs-satisfying-inequality/
 
-// In this we updates seg[i] by one, i.e., we maintained the count 
+// In this we updates seg[i] by one, i.e., we maintain the count 
 
 class Solution {
 public:
     typedef long long ll;
-    
     class SegmentTree {
         public:
         int maxN;
         vector<ll> seg;
-        
         SegmentTree(int n) : maxN(n) {
             seg = vector<ll> (maxN * 4 + 10, 0);
         }
-        
         ll query(int l, int r) {
             return query_util(0, 0, maxN - 1, l, r);
         }
-        
         ll query_util(int i, int low, int high, int l, int r) {
             if(low >= l && high <= r) 
                 return seg[i];
@@ -32,11 +28,9 @@ public:
             ll right = query_util(2 * i + 2, mid + 1, high, l, r);
             return left + right;
         }
-        
         void update(int ele) {
             update_util(0, 0, maxN - 1, ele);
         }
-        
         void update_util(int i, int low, int high, int ele) {
             if(low == high) {
                 seg[i]++;
@@ -51,7 +45,6 @@ public:
             seg[i] = seg[2 * i + 1] + seg[2 * i + 2];
         }
     };
-    
     long long numberOfPairs(vector<int>& nums, vector<int>& nums2, int diff) {
         int n = nums.size();
         int offset = 20000;

@@ -12,16 +12,16 @@ using namespace std;
 class Solution {
 public:
     typedef long long ll;
-    
     class SegmentTree {
         public:
+        // Data Members
         int maxN;
         vector<int> seg;
-        
+        // Constructor
         SegmentTree(int n) : maxN(n) {
             seg = vector<int> (maxN * 4 + 10, 0);
         }
-        
+        // Member Functions
         int query(int l, int r) {
             return query_util(0, 0, maxN - 1, l, r);
         }
@@ -52,6 +52,7 @@ public:
             seg[i] = seg[2 * i + 1] + seg[2 * i + 2];
         }
     };
+    // Given Function to be completed
     int reversePairs(vector<int>& nums) {
         int n = nums.size();
         SegmentTree seg(n);
