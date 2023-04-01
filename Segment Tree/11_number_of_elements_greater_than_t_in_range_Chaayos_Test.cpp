@@ -1,6 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// You are given employe id and salaries of 'n' different employees.
+// Ids vary in the range [1, n].
+// You are also given 'm' queries where each query is denoted by parameters 1, r, x.
+// Each employee with a salary strictly greater than x needs to pay tax. 
+// You are asked to filter out the rows in the range l to r where employees will pay the tax. 
+
 // To store number of employees
 int maxN;
 
@@ -89,7 +95,7 @@ int main() {
     solution(sals, queries);
 }
 
-// Time -> (n log(n)) + (m log(n)) -> Build time + Query Time
+// Time -> (n log(n)) + (m log(n) log(n)) -> Build time + Query Time (Query Search * lower_bound())
 
 // Input 
 
