@@ -1,14 +1,12 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-struct TreeNode {
+class TreeNode {
     int val;
-    TreeNode *left;
-    TreeNode *right;
-    TreeNode() : val(0), left(nullptr), right(nullptr) {}
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+    TreeNode *left, *right;
 };
+
+// https://leetcode.com/problems/delete-node-in-a-bst/
 
 TreeNode* deleteNode(TreeNode* root, int key) {
     if(!root) return NULL;
