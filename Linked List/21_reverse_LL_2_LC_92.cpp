@@ -10,8 +10,9 @@ struct ListNode {
 
 ListNode* reverseBetween(ListNode* head, int left, int right) {
     ListNode *prev = left == 1 ? NULL : head;
-    for(int i = 2; i < left; i++)
+    for(int i = 2; i < left; i++) {
         prev = prev->next;
+    }
     ListNode *cur = prev == NULL ? head : prev->next;
     ListNode *l= prev, *r = NULL;
     for(int i = left; i <= right; i++) {

@@ -25,9 +25,36 @@ public:
                 ptr = ptr->next;
                 delete(del);
             } else {
-                prev = ptr; ptr = ptr->next;
+                prev = ptr;
+                ptr = ptr->next;
             }
         }
         return temp->next;
+    }
+};
+
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode temp(0), *prev = &temp, *cur = head;
+        temp.next = head;
+        while(cur) {
+            if(cur->next && cur->next->val == cur->val) {
+                while(cur->next && cur->next->val == cur->val) {
+                    ListNode *del = cur;
+                    prev->next = cur->next;
+                    cur = cur->next;
+                    delete del;
+                }
+                ListNode *del = cur;
+                prev->next = cur->next;
+                cur = cur->next;
+                delete del;
+            } else {
+                prev = cur;
+                cur = cur->next;
+            }
+        }
+        return temp.next;
     }
 };
