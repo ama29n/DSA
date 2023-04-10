@@ -4,7 +4,6 @@ using namespace std;
 class Solution {
 public:
     vector<vector<string>> validBoards;
-    
     bool validPos(vector<string>& board, int r, int c) {
         // Column Check
         for(int i = r - 1; i >= 0; i--)

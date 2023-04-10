@@ -1,6 +1,8 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// https://leetcode.com/problems/permutations-ii/ 
+
 class Solution {
 public:
     vector<vector<int>> ans;
@@ -28,6 +30,3 @@ public:
         return ans;
     }
 };
-
-// Input: nums = [1,1,2]
-// Output: [[1,1,2], [1,2,1], [2,1,1]]
