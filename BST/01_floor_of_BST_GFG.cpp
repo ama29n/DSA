@@ -6,4 +6,4 @@ class Node {
     Node *left, *right;
 };
 
-// https://practice.geeksforgeeks.org/problems/floor-in-bst/1
+// https://practice.geeksforgeeks.org/problems/floor-in-bst/1 
