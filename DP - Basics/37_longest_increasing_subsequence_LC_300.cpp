@@ -1,69 +1,55 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-
-// Recursion
-
-int find(int i, int prevIdx, vector<int>& nums, int n) {
-    if(i == n)
-        return 0;
-    int notTake = find(i + 1, prevIdx, nums, n);
-    int take = 0;
-    if(prevIdx == -1 || nums[i] > nums[prevIdx])
-        take = 1 + find(i + 1, i, nums, n);
-    return max(take, notTake);
-}
-int lengthOfLIS(vector<int>& nums) {
-    int n = nums.size();
-    return find(0, -1, nums, n);
-}
-
+// https://leetcode.com/problems/longest-increasing-subsequence/ 
 
 // Memoization
-
-int find(int i, int prevIdx, vector<int>& nums, int n, vector<vector<int>>& dp) {
-    if(i == n)
-        return 0;
-    if(dp[i][prevIdx + 1] != -1)
-        return dp[i][prevIdx + 1];
-    int notTake = find(i + 1, prevIdx, nums, n, dp);
-    int take = 0;
-    if(prevIdx == -1 || nums[i] > nums[prevIdx])
-        take = 1 + find(i + 1, i, nums, n, dp);
-    return dp[i][prevIdx + 1] = max(take, notTake);
-}
-int lengthOfLIS(vector<int>& nums) {
-    int n = nums.size();
-    vector<vector<int>> dp(n, vector<int> (n, -1));
-    return find(0, -1, nums, n, dp);
-}
-
+class Solution {
+public:
+    int n;
+    int dfs(int i, int prev, vector<int> &nums, vector<vector<int>> &dp) {
+        if(i == n) {
+            return 0;
+        }
+        if(dp[i][prev + 1] != -1) {
+            return dp[i][prev + 1];
+        }
+        int not_take = dfs(i + 1, prev, nums, dp);
+        int take = 0;
+        if(prev == -1 || nums[prev] < nums[i]) {
+            take = 1 + dfs(i + 1, i, nums, dp);
+        }
+        return dp[i][prev + 1] = max(take, not_take);
+    }
+    int lengthOfLIS(vector<int>& nums) {
+        n = nums.size();
+        vector<vector<int>> dp(n, vector<int> (n, -1));
+        return dfs(0, -1, nums, dp);
+    }
+};
 
 // Tabulation 
-
-int lengthOfLIS(vector<int>& nums) {
-    int n = nums.size();
-    vector<vector<int>> dp(n + 1, vector<int> (n + 1, 0));
-    for(int i = n - 1; i >= 0; i--) {
-        for(int prevIdx = i - 1; prevIdx >= -1; prevIdx--) {
-            int notTake = dp[i + 1][prevIdx + 1];
-            int take = 0;
-            if(prevIdx == -1 || nums[i] > nums[prevIdx])
-                take = 1 + dp[i + 1][i + 1];
-            dp[i][prevIdx + 1] = max(take, notTake);
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> dp(n, 1);
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < i; j++) {
+                if(nums[j] < nums[i]) {
+                    dp[i] = max(dp[i], 1 + dp[j]);
+                }
+            }
         }
+        int ns = 0;
+        for(auto it : dp) {
+            ns = max(ns, it);
+        }
+        return ns;
     }
-    // for(int i = 0; i <= n; i++) {
-    //     for(int j = 0; j <= n; j++)
-    //         cout << dp[i][j] << " ";
-    //     cout << endl;
-    // }
-    return dp[0][-1 + 1];
-}
-
+};
 
 // nlogn solution
-
 int lengthOfLIS(vector<int>& nums) {
     int n = nums.size();
     vector<int> temp;
@@ -79,28 +65,53 @@ int lengthOfLIS(vector<int>& nums) {
     return temp.size();
 }
 
-// Best solution
-
-int lengthOfLIS(vector<int>& nums) {
-    int n = nums.size();
-    vector<int> dp(n, 1);
-    // Here dp[i] will store the max length of increasing subsequence till ith pos 
-    for(int i = 1; i < n; i++) {
-        int maxi = 1;
-        for(int j = 0; j < i; j++) {
-            if(nums[i] > nums[j])
-                maxi = max(maxi, dp[i] + dp[j]);
+// Segment Tree 
+const int offset = 1E4;
+class Solution {
+public:
+    int n;
+    int maxN = 2E4;
+    vector<int> seg;
+    int query(int i, int low, int high, int l, int r) {
+        if(low > r || high < l) {
+            return 0;
         }
-        dp[i] = maxi;
+        if(low >= l && high <= r) {
+            return seg[i];
+        }
+        int mid = low + (high - low) / 2;
+        int ll = query(2 * i + 1, low, mid, l, r);
+        int rr = query(2 * i + 2, mid + 1, high, l, r);
+        return max(ll, rr);
     }
-    int ans = INT_MIN;
-    for(int i = 0; i < n; i++)
-        ans = max(ans, dp[i]), cout << dp[i] << " ";
-    return ans;
-}
+    void update(int i, int low, int high, int node, int val) {
+        if(low == high) {
+            seg[i] = max(seg[i], val);
+            return;
+        }
+        int mid = low + (high - low) / 2;
+        if(node <= mid) {
+            update(2 * i + 1, low, mid, node, val);
+        } else {
+            update(2 * i + 2, mid + 1, high, node, val);
+        }
+        seg[i] = max(seg[2 * i + 1], seg[2 * i + 2]);
+    }
+    int lengthOfLIS(vector<int>& nums) {
+        n = nums.size();
+        for(auto &it : nums) {
+            it += offset;
+        }
+        seg.resize(maxN * 4 + 10, 0);
+        for(auto it : nums) {
+            int x = query(0, 0, maxN, 0, it - 1);
+            update(0, 0, maxN, it, x + 1);
+        }
+        return query(0, 0, maxN, 0, maxN);
+    }
+};
 
 // for displaying the longest sequence
-
 int lengthOfLIS(vector<int>& nums) {
     int n = nums.size();
     vector<int> dp(n, 1), prev(n, -1), v;
@@ -124,6 +135,3 @@ int lengthOfLIS(vector<int>& nums) {
         cout << it << " ";
     return ans;
 }
-
-
-

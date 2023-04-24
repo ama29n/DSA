@@ -1,30 +1,38 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-bool cal(int i, int j, int k, string s1, string s2, string s3, vector<vector<int>>& dp) {
-	if(i == s1.size())
-		return s2.substr(j) == s3.substr(k);
-	if(j == s2.size())
-		return s1.substr(i) == s3.substr(k);
+// https://leetcode.com/problems/interleaving-string/ 
 
-	if(dp[i][j] != -1)
-		return dp[i][j];
-
-	if(s1[i] != s3[k] && s2[j] != s3[k])
-		return dp[i][j] = 0;
-
-	bool a = false, b = false;
-	if(s3[k] == s1[i])
-		a = cal(i + 1, j, k + 1, s1, s2, s3, dp);
-	if(s3[k] == s2[j])
-		b = cal(i, j + 1, k + 1, s1, s2, s3, dp);
-
-	return dp[i][j] = a || b;
-}
-bool isInterleave(string s1, string s2, string s3) {
-	int i = s1.size(), j = s2.size(), k = s3.size();
-	if(i + j != k)
-		return false;
-	vector<vector<int>> dp(i, vector<int> (j, -1));
-	return cal(0, 0, 0, s1, s2, s3, dp);
-}
+class Solution {
+public:
+    int n1, n2, n3;
+    vector<vector<int>> dp;
+    bool dfs(int i, int j, int k, string &r, string &s, string &t) {
+        if(i == n1) {
+            return s.substr(j) == t.substr(k);
+        }
+        if(j == n2) {
+            return r.substr(i) == t.substr(k);
+        }
+        if(dp[i][j] != -1) {
+            return dp[i][j];
+        }
+        bool x = false, y = false;
+		// not_take is not an option because n1 + n2 = n3
+        if(r[i] == t[k]) {
+            x = dfs(i + 1, j, k + 1, r, s, t);
+        }
+        if(s[j] == t[k]) {
+            y = dfs(i, j + 1, k + 1, r, s, t);
+        }
+        return dp[i][j] = x || y;
+    }
+    bool isInterleave(string r, string s, string t) {
+        n1 = r.size(); n2 = s.size(); n3 = t.size();
+        if(n1 + n2 != n3) {
+            return false;
+        }
+        dp.resize(n1, vector<int> (n2, -1));
+        return dfs(0, 0, 0, r, s, t);
+    }
+};

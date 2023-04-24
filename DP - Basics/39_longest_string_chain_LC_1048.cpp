@@ -1,6 +1,8 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// https://leetcode.com/problems/longest-string-chain/ 
+
 bool comparator(string a, string b) {
     return a.size() < b.size() ? true : false;
 }

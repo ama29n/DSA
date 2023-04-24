@@ -1,8 +1,9 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-// Recursive 
+// https://leetcode.com/problems/palindromic-substrings/ 
 
+// Recursive 
 int helper(int i, int j, string s) {
     if(i >= j)
         return 1;
@@ -18,12 +19,10 @@ int countSubstrings(string s) {
     }
     return ans;
 }
-
 // Time - O(n * n * n)
 // Space - 
 
 // Memoization
-
 int helper(int i, int j, string s, vector<vector<int>>& dp) {
     if(i >= j) 
         return 1;
@@ -43,10 +42,7 @@ int countSubstrings(string s) {
     return ans;
 }
 
-
-
 // Another Approach 
-
 void countPalindrome(string s, int left, int right, int& ans) {
     while(left >= 0 && right < s.size() && s[left] == s[right]) {
         ans++;

@@ -2,10 +2,13 @@
 using namespace std;
 
 int find(int i, int w, vector<int>& weight, vector<int>& value, vector<vector<int>>& dp) {
-	if(w == 0)
+	if(w == 0) {
 		return 0;
+	}
 	if(i == 0) {
-		if(weight[0] <= w) return value[0];
+		if(weight[0] <= w) {
+			return value[0];
+		}
 		return 0;
 	}
 	if(dp[i][w] != -1)
@@ -21,13 +24,7 @@ int knapsack(vector<int> weight, vector<int> value, int n, int maxWeight) {
 	return find(n - 1, maxWeight, weight, value, dp);
 }
 
-
-
-
-
-
 // Tabulation 
-
 int knapsack(vector<int> weight, vector<int> value, int n, int maxWeight) {
 	vector<vector<int>> dp(n, vector<int> (maxWeight + 1, 0));
 	for(int i = 0; i < n; i++) 

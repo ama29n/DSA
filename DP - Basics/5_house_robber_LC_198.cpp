@@ -42,7 +42,6 @@ int rob(vector<int>& nums) {
     return dp[nums.size() - 1];
 }
 
-
 // House Robber 2 
 
 // https://leetcode.com/problems/house-robber-ii/ 

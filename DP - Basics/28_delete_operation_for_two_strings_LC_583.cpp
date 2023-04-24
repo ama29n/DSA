@@ -1,21 +1,23 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Given two strings s and t, return the minimum number of steps required to make word1 and word2 the same.
+// https://leetcode.com/problems/delete-operation-for-two-strings/ 
 
-// In one step, you can delete exactly one character in either string.
-
-int minDistance(string s, string t) {
-    int n = s.size(), m = t.size();
-    vector<vector<int>> dp(n + 1, vector<int> (m + 1, 0));
-    
-    for(int i = 1; i <= n; i++) {
-        for(int j = 1; j <= m; j++) {
-            if(s[i - 1] == t[j - 1]) 
-                dp[i][j] = 1 + dp[i - 1][j - 1];
-            else
-                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+class Solution {
+public:
+    int minDistance(string s, string t) {
+        int m = s.size();
+        int n = t.size();
+        int dp[m + 1][n + 1]; memset(dp, 0, sizeof(dp));
+        for(int i = 1; i <= m; i++) {
+            for(int j = 1; j <= n; j++) {
+                if(s[i - 1] == t[j - 1]) {
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
         }
+        return (m + n) - (2 * dp[m][n]);
     }
-    return n + m - (2 * dp[n][m]);
-}
+};

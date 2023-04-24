@@ -3,27 +3,7 @@ using namespace std;
 
 // https://leetcode.com/problems/longest-consecutive-sequence 
 
-// Dp approach 
-int longestConsecutive(vector<int> &nums) {
-    int n = nums.size();
-    sort(nums.begin(), nums.end());
-    vector<int> arr(n, 1);
-    for(int i = 1; i < n; i++) {
-        int maxi = i;
-        for(int j = 0; j < i; j++) {
-            if(nums[i] == nums[j] + 1) {
-                arr[i] = arr[j] + 1;
-            }
-        }
-    }
-    int ans = 0;
-    for(auto it : arr) {
-        ans = max(it, ans);
-    }
-    return ans;
-}
-// Space - O(n)
-// Time - O(n ^ 2)
+// Dp approach O(n ^ 2)
 
 // O(n) Solution 
 class Solution {

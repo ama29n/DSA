@@ -1,24 +1,36 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int find(int i, int target, vector<int>& nums, vector<vector<int>>& dp) {
-    
-    if(i == 0) {
-        if(target == 0 && nums[0] == 0) return 2;
-        if(target == nums[0] || target + nums[0] == 0) return 1;
-        return 0;
-    }
-    
-    if(dp[i][target + 2000] != -1)
-        return dp[i][target + 2000];
-    
-    int add = find(i - 1, target - nums[i], nums, dp);
-    int subtract = find(i - 1, target + nums[i], nums, dp);
-    
-    return dp[i][target + 2000] = add + subtract;
-}
+// https://leetcode.com/problems/target-sum/ 
 
-int findTargetSumWays(vector<int>& nums, int target) {
-    vector<vector<int>> dp(nums.size(), vector<int> (4000, -1));
-    return find(nums.size() - 1, target, nums, dp);
-}
+// sum(nums[i]) <= 1000 thus, min nums[i] = -1000 &
+// - 1000 <= target <= 1000
+// Thus, offset = 2000
+class Solution {
+public:
+    int n;
+    int dp[1000 + 1][4000 + 1];
+    int dfs(int i, int t, vector<int> &nums) {
+        if(i == n - 1) {
+            if(t == 0 && nums[i] == 0) {
+                return 2;
+            }
+            // As it is mandatory to take all elements
+            if(t == -nums[i] || t == nums[i]) {
+                return 1;
+            }
+            return 0;
+        }
+        if(dp[i][t + 2000] != -1) {
+            return dp[i][t + 2000];
+        }
+        int add = dfs(i + 1, t + nums[i], nums);
+        int sub = dfs(i + 1, t - nums[i], nums);
+        return add + sub;
+    }
+    int findTargetSumWays(vector<int>& nums, int target) {
+        n = nums.size();
+        memset(dp, -1, sizeof(dp));
+        return dfs(0, target, nums);
+    }
+};

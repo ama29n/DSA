@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-// LIS Pattern
+// https://leetcode.com/problems/minimum-number-of-removals-to-make-mountain-array/ 
 
 int minimumMountainRemovals(vector<int>& nums) {
     // LIS from starting 
@@ -15,7 +15,6 @@ int minimumMountainRemovals(vector<int>& nums) {
         }
         dp1[i] = maxi;
     }
-    
     // LIS from end 
     vector<int> dp2(n + 1, 1);
     for(int i = n - 2; i >= 0; i--) {
@@ -26,7 +25,6 @@ int minimumMountainRemovals(vector<int>& nums) {
         }
         dp2[i] = maxi;
     }
-
     // We don't want peak to be at corners 
     // also both dps should be greater than 1... as otherwise it will be strictly increasing or decreasing 
     int ans = 0;
@@ -36,7 +34,5 @@ int minimumMountainRemovals(vector<int>& nums) {
     }
     return n - ans;
 }
-
-
 // Time - O(n ^ 2) 
 // Space = O(n)

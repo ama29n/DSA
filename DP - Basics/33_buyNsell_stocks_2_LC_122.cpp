@@ -1,40 +1,41 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/
+
 // In Recursion
 // Time = 2 raised to power n
 // Space = O(n) i.e., the stack space 
 
-// https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/
-
 // Memoization
-int cal(int i, int buy, vector<int>& prices, vector<vector<int>>& dp) {
-    if(i == prices.size() - 1) {
-        if(buy)
+class Solution {
+public:
+    int n;
+    vector<vector<int>> dp;
+    // i -> 1 = buy; i -> 0 = sell
+    int dfs(int i, int buy, vector<int> &prices) {
+        if(i == n) {
             return 0;
-        return prices[i];
+        }
+        if(dp[i][buy] != -1) {
+            return dp[i][buy];
+        }
+        int take, not_take;
+        if(buy) {
+            take = -prices[i] + dfs(i + 1, 0, prices);
+            not_take = dfs(i + 1, 1, prices);
+        } else {
+            take = prices[i] + dfs(i + 1, 1, prices);
+            not_take = dfs(i + 1, 0, prices);
+        }
+        return dp[i][buy] = max(take, not_take);
     }
-
-    if(dp[i][buy] != -1)
-        return dp[i][buy];
-
-    if(buy) {
-        int take = -prices[i] + cal(i + 1, 0, prices, dp);
-        int notTake = cal(i + 1, 1, prices, dp);
-        return dp[i][buy] = max(take, notTake);
+    int maxProfit(vector<int>& prices) {
+        n = prices.size();
+        dp.resize(n, vector<int> (2, -1));
+        return dfs(0, 1, prices);
     }
-    else {
-        int take = prices[i] + cal(i + 1, 1, prices, dp);
-        int notTake = cal(i + 1, 0, prices, dp);
-        return dp[i][buy] = max(take, notTake);
-    }
-}
-
-int maxProfit(vector<int>& prices) {
-    int n = prices.size();
-    vector<vector<int>> dp(n, vector<int> (2, -1));
-    return cal(0, 1, prices, dp);
-}
+};
 
 // Tabulation
 int maxProfit(vector<int>& prices) {
@@ -57,3 +58,21 @@ int maxProfit(vector<int>& prices) {
     }
     return dp[0][1];
 }
+
+// Direct Tabulation
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        vector<vector<int>> dp(n, vector<int> (2, 0));
+        // dp[i][1] -> selling state considering if the current stock will add to profit
+        // dp[i][0] -> buying state considering if the current stock will add to the profit 
+        // or take previous best buying price
+        dp[0][0] = 0 - prices[0];
+        for(int i = 1; i < n; i++) {
+            dp[i][0] = max(dp[i - 1][1] - prices[i], dp[i - 1][0]);
+            dp[i][1] = max(dp[i - 1][0] + prices[i], dp[i - 1][1]);
+        }
+        return dp[n - 1][1];
+    }
+};
