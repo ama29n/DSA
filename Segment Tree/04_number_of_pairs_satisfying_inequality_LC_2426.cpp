@@ -5,61 +5,51 @@ using namespace std;
 
 // In this we updates seg[i] by one, i.e., we maintain the count 
 
+typedef long long ll;   const int offset = 2E4;
+
 class Solution {
+private:
+    ll maxN;
+    vector<ll> seg;
+    void seg_update(int i, int low, int high, int node) {
+        if(low == high) {
+            seg[i]++;
+            return;
+        }
+        int mid = low + (high - low) / 2;
+        if(node <= mid) {
+            seg_update(2 * i + 1, low, mid, node);
+        } else {
+            seg_update(2 * i + 2, mid + 1, high, node);
+        }
+        seg[i] = seg[2 * i + 1] + seg[2 * i + 2];
+    }
+    ll seg_query(int i, int low, int high, int l, int r) {
+        if(low > r || high < l) {
+            return 0;
+        }
+        if(low >= l && high <= r) {
+            return seg[i];
+        }
+        ll mid = low + (high - low) / 2;
+        ll left = seg_query(2 * i + 1, low, mid, l, r);
+        ll right = seg_query(2 * i + 2, mid + 1, high, l, r);
+        return left + right;
+    }
 public:
-    typedef long long ll;
-    class SegmentTree {
-        public:
-        int maxN;
-        vector<ll> seg;
-        SegmentTree(int n) : maxN(n) {
-            seg = vector<ll> (maxN * 4 + 10, 0);
-        }
-        ll query(int l, int r) {
-            return query_util(0, 0, maxN - 1, l, r);
-        }
-        ll query_util(int i, int low, int high, int l, int r) {
-            if(low >= l && high <= r) 
-                return seg[i];
-            if(l > high || r < low)
-                return 0;
-            int mid = (low + high) / 2;
-            ll left = query_util(2 * i + 1, low, mid, l, r);
-            ll right = query_util(2 * i + 2, mid + 1, high, l, r);
-            return left + right;
-        }
-        void update(int ele) {
-            update_util(0, 0, maxN - 1, ele);
-        }
-        void update_util(int i, int low, int high, int ele) {
-            if(low == high) {
-                seg[i]++;
-                return;
-            }
-            int mid = (low + high) / 2;
-            if(ele <= mid) {
-                update_util(2 * i + 1, low, mid, ele);
-            } else {
-                update_util(2 * i + 2, mid + 1, high, ele);
-            }
-            seg[i] = seg[2 * i + 1] + seg[2 * i + 2];
-        }
-    };
-    long long numberOfPairs(vector<int>& nums, vector<int>& nums2, int diff) {
-        int n = nums.size();
-        int offset = 20000;
-        int max_ele = nums[0];
+    long long numberOfPairs(vector<int>& nums1, vector<int>& nums2, int diff) {
+        int n = nums1.size();
+        vector<int> v(n);
         for(int i = 0; i < n; i++) {
-            nums[i] -= nums2[i];
-            max_ele = max(max_ele, nums[i]);
+            v[i] = nums1[i] - nums2[i] + offset;
         }
-        SegmentTree seg(max_ele + offset + 1);
+        maxN = 2 * offset + 1;
+        seg.resize(maxN * 4 + 10, 0);
         ll ans = 0;
-        for(auto it : nums) {
-            ll count = seg.query(0, it + diff + offset);
-            ans += count;
-            seg.update(it + offset);
+        for(auto it : v) {
+            ans += seg_query(0, 0, maxN - 1, 0, it + diff);
+            seg_update(0, 0, maxN - 1, it);
         }
         return ans;
-    }
+    }  
 };

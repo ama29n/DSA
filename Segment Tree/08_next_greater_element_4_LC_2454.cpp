@@ -49,7 +49,6 @@ public:
         if(n == 1)
             return {-1};
         vector<int> v(n, -1);
-        v[n - 1] = v[n - 2] = -1;
         SegmentTree seg(n);
         seg.build(nums);
         for(int i = 0; i < n - 2; i++) {

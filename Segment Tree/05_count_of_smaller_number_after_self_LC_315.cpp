@@ -5,62 +5,49 @@ using namespace std;
 
 // Given an integer array nums, return an integer array counts where counts[i] is the number of smaller elements to the right of nums[i]
 
+const int offset = 1E4;
+
 class Solution {
+private: 
+    int maxN;
+    vector<int> seg;
+    void seg_update(int i, int low, int high, int node) {
+        if(low == high){
+            seg[i]++;
+            return;
+        }
+        int mid = low + (high - low) / 2;
+        if(node <= mid) {
+            seg_update(2 * i + 1, low, mid, node);
+        } else {
+            seg_update(2 * i + 2, mid + 1, high, node);
+        }
+        seg[i] = seg[2 * i + 1] + seg[2 * i + 2];
+    }
+    int seg_query(int i, int low, int high, int l, int r) {
+        if(low > r || high < l) {
+            return 0;
+        }
+        if(low >= l && high <= r) {
+            return seg[i];
+        }
+        int mid = low + (high - low) / 2;
+        int ll = seg_query(2 * i + 1, low, mid, l, r);
+        int rr = seg_query(2 * i + 2, mid + 1, high, l, r);
+        return ll + rr;
+    }
 public:
-    class SegmentTree {
-        public:
-        // Data Members
-        int maxN;
-        vector<int> seg;
-        // Constructor
-        SegmentTree(int n) : maxN(n) {
-            seg = vector<int> (maxN * 4 + 10, 0);
-        }
-        // Member Functions
-        void update(int ele) {
-            update_util(0, 0, maxN - 1, ele);
-        } 
-        void update_util(int i, int low, int high, int ele) {
-            if(low == high) {
-                seg[i]++;
-                return;
-            }
-            int mid = low + (high - low) / 2;
-            if(ele <= mid) {
-                update_util(2 * i + 1, low, mid, ele);
-            } else {
-                update_util(2 * i + 2, mid + 1, high, ele);
-            }
-            seg[i] = seg[2 * i + 1] + seg[2 * i + 2];
-        }
-        int query(int l, int r) {
-            return query_util(0, 0, maxN - 1, l, r);
-        }
-        int query_util(int i, int low, int high, int l, int r) {
-            if(low >= l && high <= r)
-                return seg[i];
-            if(low > r || high < l)
-                return 0;
-            int mid = low + (high - low) / 2;
-            int left = query_util(2 * i + 1, low, mid, l, r);
-            int right = query_util(2 * i + 2, mid + 1, high, l, r);
-            return left + right;
-        }
-    };
-    // Given Function to be completed
-    vector<int> countSmaller(vector<int>& nums) {
+    vector<int> countSmaller(vector<int> &nums) {
         int n = nums.size();
-        int offset = 10000;
-        int maxi = nums[0];
-        for(int i = 0; i < n; i++)
-            maxi = max(maxi, nums[i]);
-        SegmentTree seg(maxi + offset + 1);
+        for(auto &it : nums) {
+            it += offset;
+        }
+        maxN = 2 * offset + 1;
+        seg.resize(maxN * 4 + 10, 0);
         vector<int> ans(n);
         for(int i = n - 1; i >= 0; i--) {
-            int ele = nums[i];
-            int count = seg.query(0, ele + offset - 1);
-            ans[i] = count;
-            seg.update(ele + offset);
+            ans[i] = seg_query(0, 0, maxN - 1, 0, nums[i] - 1);
+            seg_update(0, 0, maxN - 1, nums[i]);
         }
         return ans;
     }

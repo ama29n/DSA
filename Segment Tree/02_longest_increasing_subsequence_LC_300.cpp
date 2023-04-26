@@ -1,72 +1,56 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-// Let the index i of the segment tree keep track of the longest increasing subsequence that ends with i.
+// https://leetcode.com/problems/longest-increasing-subsequence/ 
 
+// Let the index i of the segment tree keep track of the longest increasing subsequence that ends with i.
 // The idea is to use segment_tree max, for each of the A[i], query the values smaller than it (a[i] - 1), 
 // which will return the maximum LIS present in those values. Then simply update our tree with the newfound solution.
-
 // Once we are done with all the numbers, query the whole tree, which will return the maximum LIS.
 
-// https://leetcode.com/problems/longest-increasing-subsequence/
-
-const int maxN = 100000 + 1;
+const int offset = 1E4;
 
 class Solution {
+private:
+    int n;
+    int maxN = 2E4;
+    vector<int> seg;
+    int query(int i, int low, int high, int l, int r) {
+        if(low > r || high < l) {
+            return 0;
+        }
+        if(low >= l && high <= r) {
+            return seg[i];
+        }
+        int mid = low + (high - low) / 2;
+        int ll = query(2 * i + 1, low, mid, l, r);
+        int rr = query(2 * i + 2, mid + 1, high, l, r);
+        return max(ll, rr);
+    }
+    void update(int i, int low, int high, int node, int val) {
+        if(low == high) {
+            seg[i] = max(seg[i], val);
+            return;
+        }
+        int mid = low + (high - low) / 2;
+        if(node <= mid) {
+            update(2 * i + 1, low, mid, node, val);
+        } else {
+            update(2 * i + 2, mid + 1, high, node, val);
+        }
+        seg[i] = max(seg[2 * i + 1], seg[2 * i + 2]);
+    }
 public:
-    class SegmentTree {
-        public:
-        vector<int> seg;
-        
-        SegmentTree() {
-            seg = vector<int>(maxN * 4 + 10, 0);
-        }
-        
-        int query(int l, int r) {
-            return query_util(0, 0, maxN - 1, l, r);   
-        }
-        
-        int query_util(int i, int low, int high, int l, int r) {
-            if(low >= l && high <= r)
-                return seg[i];
-            if(low > r || high < l)
-                return INT_MIN;
-            int mid = (low + high) / 2;
-            int left = query_util(2 * i + 1, low, mid, l, r);
-            int right = query_util(2 * i + 2, mid + 1, high, l, r);
-            return max(left, right);
-        }
-        
-        void update(int len, int ele) {
-            update_util(0, 0, maxN - 1, ele, len);
-        }
-        
-        void update_util(int i, int low, int high, int ele, int len) {
-            if(high == low) {
-                seg[i] = len;
-                return;
-            }
-            int mid = (low + high) / 2;
-            if(ele <= mid) {
-                update_util(2 * i + 1, low, mid, ele, len);
-            } else {
-                update_util(2 * i + 2, mid + 1, high, ele, len);
-            }
-            seg[i] = max(seg[2 * i + 1], seg[2 * i + 2]);
-        }
-    };
-    
     int lengthOfLIS(vector<int>& nums) {
-        int n = nums.size();
-        SegmentTree seg;
-        
-        // Offsetting, the minimum element can be -10000
-        for(int i = 0; i < n; i++)
-            nums[i] += 10000;
-        for(auto it : nums) {
-            int longestSequenceBefore = 1 + seg.query(0, it - 1);
-            seg.update(longestSequenceBefore, it);
+        n = nums.size();
+        for(auto &it : nums) {
+            it += offset;
         }
-        return seg.query(0, maxN - 1);
+        seg.resize(maxN * 4 + 10, 0);
+        for(auto it : nums) {
+            int x = query(0, 0, maxN, 0, it - 1);
+            update(0, 0, maxN, it, x + 1);
+        }
+        return query(0, 0, maxN, 0, maxN);
     }
 };

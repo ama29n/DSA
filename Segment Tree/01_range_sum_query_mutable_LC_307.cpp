@@ -1,59 +1,57 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// https://leetcode.com/problems/range-sum-query-mutable/ 
+
 class NumArray {
-public:
-    int arr[100005], seg[4 * 100005], n;
-    
-    void buildTree(int i, int low, int high) {
+private:
+    int maxN;
+    vector<int> seg;
+    void seg_build(int i, int low, int high, vector<int> &nums) {
         if(low == high) {
-            seg[i] = arr[low];
+            seg[i] = nums[low];
             return;
         }
-        int mid = (low + high) / 2;
-        buildTree(2 * i + 1, low, mid);
-        buildTree(2 * i + 2, mid + 1, high);
+        int mid = low + (high - low) / 2;
+        seg_build(2 * i + 1, low, mid, nums);
+        seg_build(2 * i + 2, mid + 1, high, nums);
         seg[i] = seg[2 * i + 1] + seg[2 * i + 2];
     }
-    
-    int findSum(int i, int low, int high, int l, int r) {
-        if(low >= l && high <= r)
-            return seg[i];
-        if(high < l || low > r)
-            return 0;
-        int mid = (low + high) / 2;
-        int left = findSum(2 * i + 1, low, mid, l, r);
-        int right = findSum(2 * i + 2, mid + 1, high, l, r);
-        return left + right;
-    }
-    
-    void updateTree(int i, int index, int val, int low, int high) {
-        if(high == low) {
+    void seg_update(int i, int low, int high, int node, int val) {
+        if(low == high) {
             seg[i] = val;
             return;
         }
-        int mid = (low + high) / 2;
-        if(low <= index && index <= mid) {
-            updateTree(2 * i + 1, index, val, low, mid);
+        int mid = low + (high - low) / 2;
+        if(node <= mid) {
+            seg_update(2 * i + 1, low, mid, node, val);
         } else {
-            updateTree(2 * i + 2, index, val, mid + 1, high);
+            seg_update(2 * i + 2, mid + 1, high, node, val);
         }
         seg[i] = seg[2 * i + 1] + seg[2 * i + 2];
     }
-    
+    int seg_query(int i, int low, int high, int l, int r) {
+        if(low > r || high < l) {
+            return 0;
+        }
+        if(low >= l && high <= r) {
+            return seg[i];
+        }
+        int mid = low + (high - low) / 2;
+        int ll = seg_query(2 * i + 1, low, mid, l, r);
+        int rr = seg_query(2 * i + 2, mid + 1, high, l, r);
+        return ll + rr;
+    }
+public:
     NumArray(vector<int>& nums) {
-        this -> n = nums.size();
-        for(int i = 0; i < n; i++)
-            arr[i] = nums[i];
-        buildTree(0, 0, n - 1);
+        maxN = nums.size();
+        seg.resize(maxN * 4 + 10, 0);
+        seg_build(0, 0, maxN - 1, nums);
     }
-    
     void update(int index, int val) {
-        updateTree(0, index, val, 0, n - 1);
+        seg_update(0, 0, maxN - 1, index, val);
     }
-    
-    int sumRange(int left, int right) {
-        int ans = findSum(0, 0, n - 1, left, right);
-        return ans;
+    int sumRange(int l, int r) {
+        return seg_query(0, 0, maxN - 1, l, r);
     }
 };
