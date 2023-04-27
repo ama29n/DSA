@@ -43,3 +43,51 @@ public:
         return ans;
     }
 };
+
+// Segment Tree Solution
+const int offset = 1E4;
+class Solution {
+private: 
+    int maxN;
+    vector<int> seg;
+    void seg_update(int i, int low, int high, int node) {
+        if(low == high){
+            seg[i]++;
+            return;
+        }
+        int mid = low + (high - low) / 2;
+        if(node <= mid) {
+            seg_update(2 * i + 1, low, mid, node);
+        } else {
+            seg_update(2 * i + 2, mid + 1, high, node);
+        }
+        seg[i] = seg[2 * i + 1] + seg[2 * i + 2];
+    }
+    int seg_query(int i, int low, int high, int l, int r) {
+        if(low > r || high < l) {
+            return 0;
+        }
+        if(low >= l && high <= r) {
+            return seg[i];
+        }
+        int mid = low + (high - low) / 2;
+        int ll = seg_query(2 * i + 1, low, mid, l, r);
+        int rr = seg_query(2 * i + 2, mid + 1, high, l, r);
+        return ll + rr;
+    }
+public:
+    vector<int> countSmaller(vector<int> &nums) {
+        int n = nums.size();
+        for(auto &it : nums) {
+            it += offset;
+        }
+        maxN = 2 * offset + 1;
+        seg.resize(maxN * 4 + 10, 0);
+        vector<int> ans(n);
+        for(int i = n - 1; i >= 0; i--) {
+            ans[i] = seg_query(0, 0, maxN - 1, 0, nums[i] - 1);
+            seg_update(0, 0, maxN - 1, nums[i]);
+        }
+        return ans;
+    }
+};

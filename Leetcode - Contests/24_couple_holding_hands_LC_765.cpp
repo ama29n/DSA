@@ -6,36 +6,46 @@ using namespace std;
 class Solution {
 public:
     class DSU {
-    public:
+    private:
         int n;
-        vector<int> parent;
-        DSU(int size) : n(size) {
-            parent = vector<int> (n);
-            for(int i = 0; i < n; i++)
+        vector<int> parent, rank;
+    public:
+        DSU(int _n) : n(_n) {
+            parent.resize(n); rank.resize(n, 0);
+            for(int i = 0; i < n; i++) {
                 parent[i] = i;
+            }
         }
-        int findParent(int n) {
-            if(parent[n] == n)
-                return n;
-            return parent[n] = findParent(parent[n]);
+        int findParent(int x) {
+            if(parent[x] == x) {
+                return x;
+            }
+            return parent[x] = findParent(parent[x]);
         }
-        void makeUnion(int a, int b) {
-            parent[a] = b;
+        void makePair(int x, int y) {
+            x = findParent(x); y = findParent(y);
+            if(rank[x] > rank[y]) {
+                parent[y] = x;
+            } else if(rank[y] < rank[x]) {
+                parent[y] = x;
+            } else {
+                parent[y] = x;
+                rank[x]++;
+            } 
         }
     };
-    int minSwapsCouples(vector<int>& nums) {
-        int n = nums.size();
-        DSU d(n);
+    int minSwapsCouples(vector<int> &row) {
+        int n = row.size();
+        DSU dsu(n);
         for(int i = 0; i < n; i += 2) {
-            d.makeUnion(nums[i], nums[i + 1]);
+            dsu.makePair(i, i + 1);
         }
         int swaps = 0;
         for(int i = 0; i < n; i += 2) {
-            int parent_x = d.findParent(i);
-            int parent_y = d.findParent(i + 1);
-            if(parent_x != parent_y) {
+            int x = row[i], y = row[i + 1];
+            if(dsu.findParent(x) != dsu.findParent(y)) {
                 swaps++;
-                d.makeUnion(parent_x, parent_y);
+                dsu.makePair(x, y);
             }
         }
         return swaps;
