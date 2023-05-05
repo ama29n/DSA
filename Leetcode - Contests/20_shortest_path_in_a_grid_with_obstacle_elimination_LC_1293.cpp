@@ -5,42 +5,45 @@ using namespace std;
 
 class Solution {
 public:
-    class Help {
-        public:
-        int i, j, k, steps;
-        Help(int i, int j, int k, int steps) {
-            this->i = i; this->j = j; this->k = k; this->steps = steps;
+    class Node {
+    public:
+        int x, y, k, steps;
+        Node(int _x, int _y, int _k, int _steps) {
+            x = _x; y = _y; k = _k; steps = _steps;
         }
     };
-    int shortestPath(vector<vector<int>>& grid, int k) {
-        int m = grid.size(), n = grid[0].size();
+    int shortestPath(vector<vector<int>> &grid, int k) {
+        int m = grid.size();
+        int n = grid[0].size();
         vector<vector<int>> vis(m, vector<int> (n, -1));
+        queue<Node> q;
+        Node base(0, 0, k, 0);
+        q.push(base);
         int ans = INT_MAX;
-        Help h(0, 0, k, 0);
-        queue<Help> q;
-        q.push(h);
-        while(q.size()) {
-            Help h = q.front();
+        while(!q.empty()) {
+            int x = q.front().x, y = q.front().y, k = q.front().k;
+            int steps = q.front().steps;
             q.pop();
-            int i = h.i, j = h.j, k = h.k, steps = h.steps;
-            if(i < 0 || j < 0 || i == m || j == n)
+            if(x == m || y == n || x < 0 || y < 0) {
                 continue;
-            if(i == m - 1 && j == n - 1) {
+            }
+            if(x == m - 1 && y == n - 1) {
                 ans = min(ans, steps);
                 continue;
             }
-            if(grid[i][j] == 1) {
-                if(k < 1)
-                    continue;
+            if(grid[x][y] == 1) {
+                if(k == 0) continue;
                 k--;
             }
-            if(vis[i][j] != -1 && vis[i][j] >= k)
+            if(vis[x][y] != -1 && vis[x][y] >= k) {
                 continue;
-            vis[i][j] = k;
-            Help u(i - 1, j, k, steps + 1); q.push(u);
-            Help d(i + 1, j, k, steps + 1); q.push(d);
-            Help l(i, j - 1, k, steps + 1); q.push(l);
-            Help r(i, j + 1, k, steps + 1); q.push(r);
+            }
+            vis[x][y] = k;
+            Node l(x - 1, y, k, steps + 1);
+            Node r(x + 1, y, k, steps + 1);
+            Node u(x, y + 1, k, steps + 1);
+            Node d(x, y - 1, k, steps + 1);
+            q.push(l); q.push(r); q.push(u); q.push(d);
         }
         return ans == INT_MAX ? -1 : ans;
     }
