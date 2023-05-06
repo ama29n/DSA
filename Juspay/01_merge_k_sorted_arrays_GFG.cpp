@@ -43,5 +43,5 @@ public:
 
 // Min heap Solution
 
-// Time Complexity: O(N * K * log K), Insertion and deletion in a Min Heap requires log K time.
-// Auxiliary Space: O(K), If Output is not stored then the only space required is the Min-Heap of K elements.
+// Time Complexity: O(N * K * log K), Insertion and deletion in a Min Heap requires log K time
+// Auxiliary Space: O(K), If Output is not stored then the only space required is the Min-Heap of K elements

@@ -26,39 +26,3 @@ bool isCycle(int n, vector<int> adj[]) {
     }
     return false;
 }
-
-int main()
-{
-    int n, m;
-    cin >> n >> m;
-
-    vector<int> adj[n + 1];
-
-    for (int i = 0; i < m; i++)
-    {
-        int u, v;
-        cin >> u >> v;
-        adj[u].push_back(v);
-    }
-
-    bool ans = isCycle(n, adj);
-    if(ans)
-        cout<<"Cycle";
-    else
-        cout<<"No cycle";    
-}
-
-// 9 10 
-
-// 1 2 
-// 2 3
-// 3 4
-// 4 5
-// 3 6
-// 6 5
-// 7 2
-// 7 8
-// 8 9
-// 9 7
-
-// Output - Cycle
