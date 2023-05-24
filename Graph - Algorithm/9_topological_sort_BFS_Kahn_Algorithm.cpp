@@ -27,34 +27,3 @@ vector<int> topoSortBfs(vector<int> adj[], int n) {
     }
     return ans;
 }
-
-int main()
-{
-    int n, m;
-    cin >> n >> m;
-
-    vector<int> adj[n + 1];
-
-    for (int i = 0; i < m; i++)
-    {
-        int u, v;
-        cin >> u >> v;
-
-        adj[u].push_back(v);
-    }
-
-    vector<int> ans = topoSortBfs(adj, n);
-    for(auto it : ans)
-    cout<< it << " ";
-}
-
-// 6 6
-
-// 6 1
-// 6 3
-// 3 4
-// 4 2
-// 5 1
-// 5 2
-
-// Output - 5 6 1 3 4 2 
