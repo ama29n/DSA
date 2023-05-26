@@ -10,7 +10,6 @@ class Solution {
 public:
     vector<vector<int>> adj;
     vector<int> parent, depth;
-    
     void dfs(int node, int h, int p) {
         parent[node] = p;
         depth[node] = h;
@@ -20,7 +19,6 @@ public:
             }
         }
     }
-    
     int maxPath(int node, int p, vector<int>& amount) {
         int res = INT_MIN;
         for(auto child : adj[node]) {
@@ -30,7 +28,6 @@ public:
         }
         return res == INT_MIN ? amount[node] : amount[node] + res;
     }
-    
     int mostProfitablePath(vector<vector<int>>& edges, int bob, vector<int>& amount) {
         int n = amount.size();
         adj = vector<vector<int>> (n, vector<int>());
