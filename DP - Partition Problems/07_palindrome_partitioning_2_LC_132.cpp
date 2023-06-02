@@ -1,8 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Q -> Find minimum number of cuts such that each substring formed is a palindrome
-
 // https://leetcode.com/problems/palindrome-partitioning-ii/
 
 // Recursive Solution
@@ -70,58 +68,26 @@ public:
 // Time Complexity -> O(n ^ 3)
 class Solution {
 public:
-    bool isPalindrome(int l, int r, string& s) {
-        int i = l, j = r;
-        while(i <= j) {
-            if(s[i++] != s[j--]) { return false; }
+    bool isPalindrome(int i, int j, string &s) {
+        while(i < j) {
+            if(s[i++] != s[j--]) return false;
         }
         return true;
     }
-    int minCut(string s) {
+    int minCut(string &s) {
         int n = s.size();
-        int dp[n][n];
-        fill_n(&dp[0][0], n * n, 0);
-        for(int j = 0; j < n; j++) {
-            for(int i = j; i >= 0; i--) {
-                if(isPalindrome(i, j, s)) {
+        vector<vector<int>> dp(n, vector<int> (n, 0));
+        for(int g = 0; g < n; g++) {
+            for(int i = 0, j = g; j < n; i++, j++) {
+                if(i == j) {
                     continue;
-                } 
-                int min_cuts = INT_MAX;
-                for(int k = i; k < j; k++) {
-                    min_cuts = min(min_cuts, 1 + dp[i][k] + dp[k + 1][j]);
                 }
-                dp[i][j] = min_cuts;
-            }
-        }
-        return dp[0][n - 1];
-    }
-};
-
-// OR
-
-class Solution {
-public:
-    bool isPalindrome(int l, int r, string& s) {
-        int i = l, j = r;
-        while(i <= j) {
-            if(s[i++] != s[j--]) { return false; }
-        }
-        return true;
-    }
-    int minCut(string s) {
-        int n = s.size();
-        int dp[n][n];
-        fill_n(&dp[0][0], n * n, 0);
-        for(int i = n - 1; i >= 0; i--) {
-            for(int j = i + 1; j < n; j++) {
-                if(isPalindrome(i, j, s)) {
-                    continue;
-                } 
-                int min_cuts = INT_MAX;
+                if(isPalindrome(i, j, s)) continue;
+                int cuts = n;
                 for(int k = i; k < j; k++) {
-                    min_cuts = min(min_cuts, 1 + dp[i][k] + dp[k + 1][j]);
+                    cuts = min(cuts, 1 + dp[i][k] + dp[k + 1][j]);
                 }
-                dp[i][j] = min_cuts;
+                dp[i][j] = cuts;
             }
         }
         return dp[0][n - 1];
@@ -163,6 +129,42 @@ public:
     }
 };
 
+// O(n ^ 2) - Giving TLE
+class Solution {
+public:
+    int minCut(string &s) {
+        int n = s.size();
+        vector<vector<bool>> isPalindrome(n, vector<bool> (n, true));
+        for(int g = 0; g < n; g++) {
+            for(int i = 0, j = g; j < n; i++, j++) {
+                if(i == j) continue;
+                if(g == 1) isPalindrome[i][j] = s[i] == s[j];
+                if(!isPalindrome[i + 1][j - 1]) {
+                    isPalindrome[i][j] = false;
+                    continue;
+                }
+                if(s[i] != s[j]) isPalindrome[i][j] = false;
+            }
+        }
+        vector<vector<int>> dp(n, vector<int> (n, 0));
+        for(int g = 0; g < n; g++) {
+            for(int i = 0, j = g; j < n; i++, j++) {
+                if(i == j) {
+                    continue;
+                }
+                if(isPalindrome[i][j]) continue;
+                int cuts = n;
+                for(int k = i; k < j; k++) {
+                    if(isPalindrome[i][k]) {
+                        cuts = min(cuts, 1 + dp[k + 1][j]);
+                    }
+                }
+                dp[i][j] = cuts;
+            }
+        }
+        return dp[0][n - 1];
+    }
+};
 
 // O(n ^ 2) solution
 class Solution {
