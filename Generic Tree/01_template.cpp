@@ -1,16 +1,16 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class node {
+class TreeNode {
 public:
     int data;
-    vector<node *> child;
-    node(int val) {
+    vector<TreeNode *> child;
+    TreeNode(int val) {
         data = val;
     }
 };
 
-void input(node *&root) {
+void input(TreeNode *&root) {
     int size;
     cin >> size;
     int *input = new int[size];
@@ -18,12 +18,12 @@ void input(node *&root) {
         cin >> input[idx];
     }
     root = NULL;
-    stack<node *> nodes;
+    stack<TreeNode *> nodes;
     for (int idx = 0; idx < size; idx++) {
         if (input[idx] == -1) {
             nodes.pop();
         } else {
-            node *new_node = new node(input[idx]);
+            TreeNode *new_node = new TreeNode(input[idx]);
             if (nodes.size() == 0) {
                 root = new_node;
             }
@@ -36,6 +36,6 @@ void input(node *&root) {
 }
 
 int main() {
-    node *root;
+    TreeNode *root;
     input(root);
 }
