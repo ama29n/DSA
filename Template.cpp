@@ -16,18 +16,20 @@ vector<int> Factors (int n) {
 }
 bool is_prime (int n) { 
     if(n <= 1) return false; 
-    for(int i = 2; i <= sqrt(n); i++)
-        if (n % i == 0) return false; 
+    for(int i = 2; i <= sqrt(n); i++) {
+        if (n % i == 0) 
+            return false;
+    } 
     return true; 
 }
 bool diff_parity (ll num1, ll num2) { 
     return (num1 & 1) != (num2 & 1); 
 }
-ll gcd (ll x, ll y) { 
+ll gcd(ll x, ll y) { 
     if(!x || !y) return x + y; 
     return x % y == 0 ? y : gcd(y, x % y); 
 }
-ll lcm (ll x, ll y) { 
+ll lcm(ll x, ll y) { 
     return x * (y / gcd(x, y)); 
 }
 
