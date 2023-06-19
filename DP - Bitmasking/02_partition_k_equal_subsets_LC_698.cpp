@@ -1,0 +1,25 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// https://leetcode.com/problems/partition-to-k-equal-sum-subsets/description/ 
+
+class Solution {
+public:
+    bool canPartitionKSubsets(vector<int> &nums, int k) {
+        int n = nums.size();
+        int sum = 0; for(auto it : nums) sum += it;
+        if(sum % k) return false;
+        sum /= k;
+        vector<int> dp((1 << n) + 2, -1);
+        dp[0] = 0;
+        for(int mask = 0; mask < (1 << n); mask++) {
+            if(dp[mask] == -1) continue;
+            for(int i = 0; i < n; i++) {
+                if(!(mask & (1 << i)) && dp[mask] + nums[i] <= sum) {
+                    dp[mask | (1 << i)] = (dp[mask] + nums[i]) % sum;
+                }
+            }
+        }
+        return dp[(1 << n) - 1] == 0;
+    }
+};
