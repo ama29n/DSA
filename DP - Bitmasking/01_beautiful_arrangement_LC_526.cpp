@@ -3,6 +3,8 @@ using namespace std;
 
 // https://leetcode.com/problems/beautiful-arrangement/
 
+// A mask is used to store the selected elements and backtracking is used to find the all valid permutations 
+
 class Solution {
 public:
     int n;
