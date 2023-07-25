@@ -1,23 +1,9 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int MOD = 1E9 + 7;
+const int MOD = 1E9 + 7; const string yes = "YES", no = "NO";
 
-const string yes = "YES";
-const string no = "NO";
-
-typedef long long ll;
-typedef unsigned long long ull;
-typedef long double ld;
-
-#define pb          push_back
-#define mem(a, i)   memset(a, i, sizeof(a))
-#define ff          first
-#define ss          second
 #define all(v)      v.begin(), v.end()
-#define rall(v)     v.rbegin(), v.rend()
-
-vector<int> Factors(int n) { vector<int> ans; for (int i = 1; i * i <= n; i++) { if(n % i == 0) { ans.push_back(i); if((n / i) != i) ans.push_back(n / i); } } return ans; }
 
 // https://codeforces.com/problemset/problem/1741/D
 
@@ -61,26 +47,7 @@ void solve() {
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-
-    int t;
-    cin >> t;
-
-    // vector<bool> isPrime(size, true);
-    // vector<int> hp(size, 0), lp(size, 0);
-    // isPrime[0] = isPrime[1] = false;
-    // for(int i = 2; i < size; i++) {
-    //     if(isPrime[i]) {
-    //         lp[i] = hp[i] = i;
-    //         for(int j = 2 * i; j < size; j += i) {
-    //             isPrime[j] = false;
-    //             hp[j] = i;
-    //             if(lp[j] == 0) {
-    //                 lp[j] = i;
-    //             }
-    //         }
-    //     }
-    // }
-
+    int t; cin >> t;
     while(t--) {
         solve();
     }
