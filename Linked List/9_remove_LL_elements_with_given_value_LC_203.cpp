@@ -12,22 +12,21 @@ struct ListNode {
 
 class Solution {
 public:
-    ListNode* removeElements(ListNode* head, int val) {
-        while(head && head->val == val) {
-            ListNode *del = head; head = head->next; delete del;
-        }
-        ListNode *prev = NULL, *ptr = head;
-        while(ptr) {
-            if(ptr->val == val) {
-                ListNode *del = ptr;
-                prev->next = ptr->next;
-                ptr = ptr->next;
+    ListNode* removeElements(ListNode *head, int val) {
+        ListNode *temp = new ListNode(0); 
+        temp->next = head;
+        ListNode *prev = temp, *cur = head;
+        while(cur) {
+            if(cur->val == val) {
+                ListNode *del = cur;
+                prev->next = cur->next;
+                cur = cur->next;
                 delete del;
             } else {
-                prev = ptr;
-                ptr = ptr->next;
+                prev = cur;
+                cur = cur->next;
             }
         }
-        return head;
+        return temp->next;
     }
 };

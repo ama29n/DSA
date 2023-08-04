@@ -10,7 +10,7 @@ struct ListNode {
 
 class Solution {
 public:
-    ListNode* removeNthFromEnd(ListNode* head, int n) {
+    ListNode* removeNthFromEnd(ListNode *head, int n) {
         ListNode *l1 = head, *l2 = head, *prev = NULL;
         for(int i = 1; i < n; i++) {
             l1 = l1->next;

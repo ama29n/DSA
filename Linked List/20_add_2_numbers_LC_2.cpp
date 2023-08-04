@@ -14,28 +14,28 @@ struct Node {
 
 class Solution {
 public:
-    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode *a = l1, *b = l2;
+    ListNode* addTwoNumbers(ListNode  *l1, ListNode *l2) {
+        ListNode temp(0), *ptr = &temp;
         int carry = 0;
-        ListNode head(0), *ptr = &head;
-        while(a || b) {
+        while(l1 || l2) {
             int val = carry;
             carry = 0;
-            val += a ? a->val : 0;
-            val += b ? b->val : 0;
-            a = a ? a->next : a;
-            b = b ? b->next : b;
+            val += l1 ? l1->val : 0;
+            val += l2 ? l2->val : 0;
+            l1 = l1 ? l1->next : l1;
+            l2 = l2 ? l2->next : l2;
             if(val >= 10) {
                 carry = val / 10;
                 val %= 10;
             }
             ListNode *node = new ListNode(val);
-            ptr->next = node; ptr = ptr->next; 
+            ptr->next = node;
+            ptr = ptr->next;
         }
-        if(carry != 0) {
+        if(carry) {
             ListNode *node = new ListNode(carry);
             ptr->next = node;
         }
-        return head.next;
+        return temp.next;
     }
 };

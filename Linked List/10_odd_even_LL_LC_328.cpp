@@ -8,7 +8,7 @@ struct ListNode {
 
 // https://leetcode.com/problems/odd-even-linked-list/ 
 
-ListNode* oddEvenList(ListNode* head) {
+ListNode* oddEvenList(ListNode *head) {
     if(!head || !head->next) {
         return head;
     }

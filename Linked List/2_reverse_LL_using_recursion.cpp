@@ -6,18 +6,21 @@ struct ListNode {
     ListNode *next;
 }
 
+// https://leetcode.com/problems/reverse-linked-list/
+
 class Solution {
 public:
-    ListNode* reverseList(ListNode* head) {
+    ListNode* reverseList(ListNode *head) {
         if(!head || !head->next) {
             return head;
         }
-        // Assume this step will return the reversed LL
+        // We assume that we get the reverse LL till head->next
         ListNode *temp = reverseList(head->next);
-        // Changing direction of current node 
+        // head still points to head->next;
         head->next->next = head;
+        // make head point to NULL
         head->next = NULL;
-        // temp will remain same in all iterations i.e, the last node
+        // temp will same in all iterations i.e., the last node
         return temp;
     }
 };

@@ -11,7 +11,7 @@ struct ListNode {
 // Using stack, Time - O(n), Space - O(n)
 class Solution {
 public:
-    ListNode* reverseList(ListNode* head) {
+    ListNode* reverseList(ListNode *head) {
         if(!head || !head->next) {
             return head;
         }
@@ -35,7 +35,7 @@ public:
 // Time - O(n), Space - O(1)
 class Solution {
 public:
-    ListNode* reverseList(ListNode* head) {
+    ListNode* reverseList(ListNode *head) {
         ListNode *cur = head, *l = NULL, *r = NULL;
         while(cur) {
             r = cur->next;

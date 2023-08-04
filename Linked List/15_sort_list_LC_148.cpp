@@ -10,7 +10,7 @@ struct ListNode {
 
 class Solution {
 public:
-    ListNode *merge(ListNode *l1, ListNode *l2) {
+    ListNode* merge(ListNode *l1, ListNode *l2) {
         ListNode temp(0), *ptr = &temp;
         while(l1 && l2) {
             if(l1->val < l2->val) {

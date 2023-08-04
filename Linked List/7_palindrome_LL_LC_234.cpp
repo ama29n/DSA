@@ -11,27 +11,35 @@ struct ListNode {
 // Hint - Reverse half LL and then check
 
 class Solution {
-public:
+private:
     ListNode* reverse(ListNode *head) {
-        ListNode *cur = head, *l = NULL, *r = NULL;
-        while(cur) {
-            r = cur->next; cur->next = l; l = cur; cur = r;
+        if(!head || !head->next) {
+            return head;
         }
-        return l;
+        ListNode *temp = reverse(head->next);
+        head->next->next = head;
+        head->next = NULL;
+        return temp;
     }
-    bool isPalindrome(ListNode* head) {
+public:
+    bool isPalindrome(ListNode *head) {
+        if(!head && !head->next) {
+            return true;
+        }
         ListNode *slow = head, *fast = head;
         while(fast->next && fast->next->next) {
-            slow = slow->next; fast = fast->next->next;
+            fast = fast->next->next;
+            slow = slow->next;
         }
         slow->next = reverse(slow->next);
-        ListNode *l1 = head, *l2 = slow->next;
-        while(l1 && l2) {
-            if(l1->val != l2->val) {
+        fast = head;
+        slow = slow->next;
+        while(slow) {
+            if(slow->val != fast->val) {
                 return false;
             }
-            l1 = l1->next; l2 = l2->next;
+            slow = slow->next; fast = fast->next;
         }
         return true;
-    }   
+    }
 };

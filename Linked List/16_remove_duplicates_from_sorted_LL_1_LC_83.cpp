@@ -10,7 +10,7 @@ struct ListNode {
 
 class Solution {
 public:
-    ListNode* deleteDuplicates(ListNode* head) {
+    ListNode* deleteDuplicates(ListNode *head) {
         ListNode *ptr = head;
         while(ptr) {
             while(ptr->next && ptr->val == ptr->next->val) {

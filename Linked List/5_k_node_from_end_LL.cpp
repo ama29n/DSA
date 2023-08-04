@@ -8,7 +8,7 @@ struct ListNode {
 
 class Solution {
 public:
-    ListNode *last(ListNode *head, int k) {
+    ListNode* last(ListNode *head, int k) {
         ListNode *ptr = head;
         for (int i = 1; i <= k; i++) {
             ptr = ptr->next;

@@ -23,14 +23,14 @@ public:
         }
         int n = findLen(head);
         ListNode *prevX, *X, *prevY, *Y, *prev, *ptr;
-        // For kth element
+        // For kth node
         prev = NULL; ptr = head; 
         for(int i = 1; i < k; i++) {
             prev = ptr;
             ptr = ptr->next;
         }
         prevX = prev; X = ptr;
-        // For (n - k)th element
+        // For (n - k)th node
         prev = NULL, ptr = head;
         for(int i = 1; i <= (n - k); i++) {
             prev = ptr;
