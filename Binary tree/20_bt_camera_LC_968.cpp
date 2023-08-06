@@ -30,6 +30,7 @@ public:
         if(l == has_camera || r == has_camera) {
             return no_need;
         }
+        // no_need: which means now the camera will be needed
         return no_camera;
     }
     int minCameraCover(TreeNode* root) {
