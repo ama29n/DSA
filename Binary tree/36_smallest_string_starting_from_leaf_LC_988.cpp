@@ -11,24 +11,16 @@ struct TreeNode {
 
 class Solution {
 public:
-    string ans = "~";
-    void dfs(TreeNode *root, string s) {
-        if(!root) {
-            return;
-        }
-        s += ('a' + root->val);
+    string smallestFromLeaf(TreeNode* root, string str = "") {
+        // Case: If either left or right child doesn't exist
+        if(!root) return "~";
+        string x = str + char('a' + root->val);
+        string l = smallestFromLeaf(root->left, x);
+        string r = smallestFromLeaf(root->right, x);
         if(!root->left && !root->right) {
-            reverse(s.begin(), s.end());
-            if(s < ans) {
-                ans = s;
-            }
-            return;
+            reverse(x.begin(), x.end());
+            return x;
         }
-        dfs(root->left, s);
-        dfs(root->right, s);
-    }
-    string smallestFromLeaf(TreeNode* root) {
-        dfs(root, "");
-        return ans;
+        return min(l, r);
     }
 };

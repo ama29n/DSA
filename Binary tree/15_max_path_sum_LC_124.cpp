@@ -9,26 +9,37 @@ struct TreeNode {
 
 // https://leetcode.com/problems/binary-tree-maximum-path-sum/ 
 
-// In this question one thing to note is that it is not necessary that the path passes through the root node
-// &
-// that the path must be from one leaf node to another leaf node
-// it can be any path within as well, not passing through the root and with no leaf nodes
+// It is not necessary that the path passes through the root node
+// or
+// that the path is from one leaf node to another leaf node
 
-int maxPath = INT_MIN;
-    
-int cal(TreeNode* root) {
-    if(!root)
-        return 0;
-    int l = cal(root->left);
-    int r = cal(root->right);
-    
-    int sum = max({root->val, r + root->val, l + root->val});
-    maxPath = max({maxPath, sum, root->val + l + r});
-    
-    return sum;
-}
+class Solution {
+private:
+    int max_so_far = INT_MIN;
+public:
+    int dfs(TreeNode *root) {
+        if(!root) {
+            return 0;
+        }
+        
+        // l & r -> give the maximum sum path in both subtrees
+        int l = dfs(root->left);
+        int r = dfs(root->right);
 
-int maxPathSum(TreeNode* root) {
-    int p = cal(root);
-    return maxPath;
-}
+        // max_till_now -> assure path won't be discontinuous
+        int max_till_now = max({ root->val, r + root->val, l + root->val });
+
+        // max_path_in_subtrees -> forms the max path b/w 2 leaf nodes, through current node
+        int max_path_in_subtrees = root->val + l + r;
+        
+        // max_so_far -> maintains the max path
+        max_so_far = max({ max_so_far, max_till_now, max_path_in_subtrees });
+
+        // return
+        return max_till_now;
+    }
+    int maxPathSum(TreeNode* root) {
+        int p = dfs(root);
+        return max_so_far;
+    }
+};

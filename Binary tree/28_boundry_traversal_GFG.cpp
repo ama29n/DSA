@@ -64,3 +64,49 @@ public:
         return ans;
     }
 };
+
+class Solution {
+private:
+    void leftBorder(Node *root, vector<int> &border) {
+        if(!root) return;
+        while(root) {
+            border.push_back(root->data);
+            if(!root->left) {
+                break;
+            }
+            root = root->left;
+        }
+        leftBorder(root->right, border);
+    }
+    void bottomBorder(Node *root, vector<int> &border) {
+        if(!root) return;
+        bottomBorder(root->left, border);
+        if(!root->left && !root->right) {
+            border.push_back(root->data);
+        }
+        bottomBorder(root->right, border);
+    }
+    void rightBorder(Node *root, stack<int> &s) {
+        if(!root) return;
+        while(root) {
+            s.push(root->data);
+            if(!root->right) {
+                break;
+            }
+            root = root->right;
+        }
+        rightBorder(root->left, s);
+    }
+public:
+    vector<int> boundary(Node *root) {
+        vector<int> border;
+        leftBorder(root, border); border.pop_back();
+        bottomBorder(root, border);
+        stack<int> s;
+        rightBorder(root, s); s.pop();
+        while(s.size() > 1) {
+            border.push_back(s.top()); s.pop();
+        }
+        return border;
+    }
+};

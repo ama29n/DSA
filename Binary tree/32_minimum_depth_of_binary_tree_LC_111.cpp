@@ -12,20 +12,17 @@ struct TreeNode {
 class Solution {
 public:
     int dfs(TreeNode *root) {
-        if(!root) {
-            return 1E5;
-        }
-        int l = dfs(root->left);
-        int r = dfs(root->right);
+        if(!root) return 1E5;
         if(!root->left && !root->right) {
             return 1;
         }
+        int l = dfs(root->left), r = dfs(root->right);
         return min(l, r) + 1;
     }
     int minDepth(TreeNode* root) {
-        if(!root) {
-            return 0;
-        }
+        if(!root) return 0;
         return dfs(root);
     }
 };
+
+ 

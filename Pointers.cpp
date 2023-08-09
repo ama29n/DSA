@@ -103,10 +103,10 @@ int main() {
     int a = 10;
     const int *ptr;
     ptr = &a;
-    *ptr = 300; // assignment of read-only location ‘* ptr’
-    *ptr++; // This is valid
-    int b = 7;
-    ptr = &b; // This is valid
+    *ptr = 300;  // assignment of read-only location ‘* ptr’
+    (*ptr)++;    // This is valid
+    int b = 7;   // error: increment of read-only location ‘* ptr’
+    ptr = &b;    // This is valid
 }
 
 // Pointer Arithmatic
@@ -221,9 +221,6 @@ class Swap {
 };
 
 
-// https://www.geeksforgeeks.org/difference-between-pointer-to-an-array-and-array-of-pointers/ 
-
-
 // Predict Output
 int main() {
     int num[5];
@@ -264,3 +261,44 @@ int main() {
     return 0;
 }
 // 5 4 3 2 1
+
+// Pointer to Array 
+// We can declare a pointer that can point to whole array instead of only one element of the array. 
+
+int main() {
+    data_type (*var_name)[size_of_array];
+    int (*ptr)[10]; 
+}
+
+// Example
+int main() {
+    int n = 5;
+    int arr[n] = {1, 2, 3, 4, 5};
+
+    int *p = arr;             // Pointer to 1st element of array
+    int (*ptr)[n];            // Pointer to whole array
+    ptr = &arr;
+
+    cout << "p = " << p << ", ptr = " << ptr;      // p = 0x30, ptr = 0x30
+    
+    // Increment both pointers 
+    p++; ptr++;
+
+    cout << "p = " << p << ", ptr = " << ptr;      // p = 0x34, ptr = 0x44
+}
+
+
+// Array of pointers
+int main() {
+    int *var_name[array_size];
+     int *ptr[3];
+}
+
+
+int main() {
+     int *ptr_arr[3] = {new int(1), new int(2), new int(3)};
+     for(int i = 0; i < 3; i++) {
+        cout << *ptr_arr[i] << " ";
+     }
+}
+// 1 2 3

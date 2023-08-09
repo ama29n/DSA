@@ -12,38 +12,55 @@ struct TreeNode {
 // O(n ^ 2)
 class Solution {
 public:
-    int ans = 0;
-    int findMin(TreeNode *root) {
-        if(!root) {
-            return 100000;
-        }
-        int l = findMin(root->left);
-        int r = findMin(root->right);
-        return min({l, r, root->val});
-    }
     int findMax(TreeNode *root) {
-        if(!root) {
+        if(!root) return 0;
+        return max({root->val, findMax(root->left), findMax(root->right)});
+    }
+    int findMin(TreeNode *root) {
+        if(!root) return 1E5;
+        return min({root->val, findMin(root->left), findMin(root->right)});
+    }
+    int dfs(TreeNode *root) {
+        if(!root) return 0;
+        int l = dfs(root->left);
+        int r = dfs(root->right);
+        int mini = min(findMin(root->left), findMin(root->right));
+        int maxi = max(findMax(root->left), findMax(root->right));
+        if(!root->left && !root->right) {
             return 0;
         }
-        int l = findMax(root->left);
-        int r = findMax(root->right);
-        return max({l, r, root->val});
+        return max({l, r, abs(root->val - maxi), abs(root->val - mini)});
     }
-    void dfs(TreeNode *root) {
-        if(!root || (!root->left && !root->right)) { // answer on leaf would be 0
-            return;
-        }
-        dfs(root->left); dfs(root->right);
-        int x = min(findMin(root->left), findMin(root->right));
-        int y = max(findMax(root->left), findMax(root->right));
-        ans = max({ans, abs(x - root->val), abs(y - root->val)});
-    }
-    int maxAncestorDiff(TreeNode* root) {
-        dfs(root);
-        return ans;
+    int maxAncestorDiff(TreeNode *root) {
+        return dfs(root);
     }
 };
 
-
-
 // O(n)
+class Solution {
+public:
+    class Helper {
+        public:
+        int dif, maxi, mini;
+        Helper() {
+            dif = 0; maxi = 0; mini = 1E5;
+        }
+    } hh;
+    Helper dfs(TreeNode *root) {
+        if(!root) return hh;
+        Helper l = dfs(root->left), r = dfs(root->right), h;
+        h.mini = min(l.mini, r.mini);
+        h.maxi = max(l.maxi, r.maxi);
+        h.dif = max({abs(root->val - h.mini), abs(root->val - h.maxi), r.dif, l.dif});
+        if(!root->left && !root->right) {
+            h.dif = 0;
+        }
+        h.mini = min(h.mini, root->val);
+        h.maxi = max(h.maxi, root->val);
+        return h;
+    }
+    int maxAncestorDiff(TreeNode* root) {
+        Helper h = dfs(root);
+        return h.dif;
+    }
+};
