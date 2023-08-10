@@ -40,3 +40,25 @@ public:
         return;
     }
 };
+
+// In order to create it into a doubly LL
+void dfs(Node *root) {
+        if(!root) return;
+        dfs(root->left);
+        dfs(root->right);
+        Node *ptr = root;
+        Node *temp = root->right;
+        root->right = root->left;
+        root->left = NULL;
+        while(ptr->right != NULL) {
+            ptr = ptr->right;
+        }
+        ptr->right = temp;
+        // Making reverse nodes
+        ptr = root; temp = root->right;
+        while(temp) {
+            temp->left = ptr;
+            temp = temp->right;
+            ptr = ptr->right;
+        }
+    }
