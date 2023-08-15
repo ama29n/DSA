@@ -3,25 +3,6 @@ using namespace std;
 
 // https://leetcode.com/problems/triangle/ 
 
-class Solution {
-public:
-    int path(int rows, int ele, vector<vector<int>>& triangle) {
-        if(rows == triangle.size() - 1) {
-            return triangle[rows][ele];
-        }
-        int down = path(rows + 1, ele, triangle);
-        int diaDown = path(rows + 1, ele + 1, triangle);
-        return triangle[rows][ele] + min(down, diaDown);
-    }
-    int minimumTotal(vector<vector<int>>& triangle) {
-        if(triangle.size() == 1) {
-            return triangle[0][0];
-        }
-        int rows = triangle.size();
-        return path(0, 0, triangle);
-    }
-};
-
 // Memoization
 class Solution {
 public:

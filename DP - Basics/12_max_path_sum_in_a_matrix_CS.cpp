@@ -3,6 +3,8 @@ using namespace std;
 
 // https://www.codingninjas.com/codestudio/problems/maximum-path-sum-in-the-matrix_797998  
 
+// -1E4 <= matrix[i][j] <= 1E4 
+
 int dfs(int i, int j, vector<vector<int>> &grid, vector<vector<int>> &dp, int m, int n) {
     if(i == m - 1) {
         return grid[i][j];
@@ -29,5 +31,3 @@ int getMaxPathSum(vector<vector<int>> &matrix) {
     }
     return ans;
 }
-
-// -1E4 <= matrix[i][j] <= 1E4 

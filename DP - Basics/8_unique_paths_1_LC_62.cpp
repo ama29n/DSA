@@ -21,30 +21,33 @@ public:
         return paths(m - 1, n - 1);
     }
 };
-// Time - 2 raised to power m*n
+// Time - 2 raised to power (m * n)
 // space - o (m + n)
 
 // Memoization 
 class Solution {
-public:
-    int paths(int row, int col, vector<vector<int>> &dp) {
-        if(row == 0 && col == 0) {
+private:
+    int m, n;
+    int dp[102][102];
+    int dfs(int i, int j) {
+        if(i == m || j == n) {
+            return 0;
+        }   
+        if(i == m - 1 && j == n - 1) {
             return 1;
         }
-        if(row < 0 || col < 0) {
-            return 0;   
-        }     
-        if(dp[row][col] != -1) {
-            return dp[row][col];
+        if(dp[i][j] != -1) {
+            return dp[i][j];
         }
-        int left = paths(row, col - 1, dp);
-        int up = paths(row - 1, col, dp);
-        return dp[row][col] = left + up;
+        int d = dfs(i + 1, j);
+        int r = dfs(i, j + 1);
+        return dp[i][j] = d + r;
     }
-
-    int uniquePaths(int m, int n) {
-        vector<vector<int>> dp(m, vector<int> (n, -1));
-        return paths(m - 1, n - 1, dp);
+public:
+    int uniquePaths(int _m, int _n) {
+        m = _m; n = _n;
+        memset(dp, -1, sizeof dp);
+        return dfs(0, 0);
     }
 };
 // Time - O(m * n) 

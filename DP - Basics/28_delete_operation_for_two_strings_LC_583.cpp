@@ -3,6 +3,8 @@ using namespace std;
 
 // https://leetcode.com/problems/delete-operation-for-two-strings/ 
 
+// Steps to make strings same; Only 1 charcater can be deleted at a time
+
 class Solution {
 public:
     int minDistance(string s, string t) {

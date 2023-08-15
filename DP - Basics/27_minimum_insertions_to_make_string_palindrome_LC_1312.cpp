@@ -3,7 +3,11 @@ using namespace std;
 
 // https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/ 
 
-// total length - longest palindromic subsequence 
+
+// Steps to make string palindrome; Only 1 charcater can be inserted at a time
+
+// total length - LPS
+
 class Solution {
 public:
     int minInsertions(string s) {

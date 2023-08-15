@@ -60,16 +60,19 @@ int findWays(vector<int> &nums, int K) {
 }
 
 // If nums[i] can also be zero, following solution would be used
-#include <bits/stdc++.h> 
+const int MOD = 1E9 + 7;
 int dfs(int i, int k, vector<int> &nums, vector<vector<int>> &dp) {
-    if(i == nums.size() - 1) {
-        if(k == 0 && nums[i] == 0) {
-            return 2;
-        }
-        if(k == 0 || k == nums[i]) {
-            return 1;
-        }
-        return 0;
+    // if(i == nums.size() - 1) {
+    //     if(k == 0 && nums[i] == 0) {
+    //         return 2;
+    //     }
+    //     if(k == 0 || k == nums[i]) {
+    //         return 1;
+    //     }
+    //     return 0;
+    // }
+    if(i == nums.size()) {
+        return k == 0 ? 1 : 0;
     }
     if(dp[i][k] != -1) {
         return dp[i][k];
@@ -79,7 +82,7 @@ int dfs(int i, int k, vector<int> &nums, vector<vector<int>> &dp) {
     if(nums[i] <= k) {
         take = dfs(i + 1, k - nums[i], nums, dp);
     }
-    return dp[i][k] = take + not_take;
+    return dp[i][k] = (take + not_take) % MOD;
 }
 int findWays(vector<int> &nums, int K) {
     int n = nums.size(); 

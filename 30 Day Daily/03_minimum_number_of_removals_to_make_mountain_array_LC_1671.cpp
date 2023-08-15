@@ -1,7 +1,7 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-// https://leetcode.com/problems/minimum-number-of-removals-to-make-mountain-array/ 
+// https://leetcode.com/problems/minimum-number-of-removals-to-make-mountain-array
 
 class Solution {
 private: 

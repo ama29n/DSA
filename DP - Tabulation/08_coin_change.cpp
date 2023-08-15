@@ -8,7 +8,6 @@ using namespace std;
 class Solution {
   public:
     typedef long long ll;
-    
     ll count(int coins[], int n, int sum) {
         vector<ll> dp(sum + 1);
         dp[0] = 1;

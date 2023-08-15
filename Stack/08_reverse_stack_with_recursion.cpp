@@ -1,49 +1,32 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// The idea of the solution is to hold all values in Function Call Stack until 
-// the stack becomes empty. When the stack becomes empty, insert all held items 
-// one by one at the bottom of the stack. 
+// The idea of the solution is to hold all values in Function Call Stack until the stack becomes empty. 
+// When the stack becomes empty, insert all held items one by one at the bottom of the stack. 
 
-void insertAtBottom(stack<int> s, int x) {
+void insertAtBottom(stack<int> &s, int x) {
     if(s.empty()) {
-        s.push(x);
-        return;
+        s.push(x); return;
     }
-
     int y = s.top();
     s.pop();
-
     insertAtBottom(s, x);
-
     s.push(y);
 }
 
-void reverse(stack<int> s) {
-    if(s.empty())
-        return;
-
+void reverse(stack<int> &s) {
+    if(s.empty()) return;
     int x = s.top();
     s.pop();
-
     reverse(s);
-
     insertAtBottom(s, x);
 }
 
 int main() {
     stack<int> s;
-    
-    s.push(1);
-    s.push(2);
-    s.push(3);
-    s.push(4);
-    s.push(5);
-    
+    s.push(1); s.push(2); s.push(3); s.push(4); s.push(5);
     reverse(s);
     while(!s.empty()) {
-        int x = s.top();
-        cout << x << " ";
-        s.pop();
+        cout << s.top() << " "; s.pop();
     }
 }

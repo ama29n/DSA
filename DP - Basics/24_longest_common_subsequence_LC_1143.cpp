@@ -8,7 +8,7 @@ using namespace std;
 
 // Memoization
 class Solution {
-public:
+private:
     int m, n;
     int dp[1002][1002];
     int dfs(int i, int j, string &s, string &t) {
@@ -24,6 +24,7 @@ public:
         dp[i][j] = max(dfs(i + 1, j, s, t), dfs(i, j + 1, s, t));
         return dp[i][j];
     }
+public:
     int longestCommonSubsequence(string s, string t) {
         m = s.size(); n = t.size();
         memset(dp, -1, sizeof(dp));

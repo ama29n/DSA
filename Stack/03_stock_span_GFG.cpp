@@ -1,23 +1,21 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// https://practice.geeksforgeeks.org/problems/stock-span-problem-1587115621/1 
+
 class Solution {
     public:
     vector <int> calculateSpan(int price[], int n) {
-       vector<int> span(n);
-       span[0] = 1;
-       
        stack<int> s;
+       vector<int> span(n, 1);
        s.push(0);
-       
-       // 100 90 80 70 60 50 60, reason for <= condition
        for(int i = 1; i < n; i++) {
-           while(!s.empty() && price[s.top()] <= price[i])
-                s.pop();
-            span[i] = !s.empty() ? i - s.top() : i + 1;
-            s.push(i);
+           while(!s.empty() && price[s.top()] <= price[i]) {
+               s.pop();
+           }
+           span[i] = s.empty() ? i + 1 : i - s.top();
+           s.push(i);
        }
-       
        return span;
     }
 };
