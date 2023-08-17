@@ -3,6 +3,8 @@ using namespace std;
 
 // https://leetcode.com/problems/longest-increasing-subsequence/ 
 
+// These methods don't work if subsequence can have duplicate elements
+
 // Memoization
 class Solution {
 public:
@@ -50,28 +52,31 @@ public:
 };
 
 // nlogn solution
-int lengthOfLIS(vector<int>& nums) {
-    int n = nums.size();
-    vector<int> temp;
-    temp.push_back(nums[0]);
-    for(int i = 1; i < n; i++) {
-        if(nums[i] > temp.back()) {
-            temp.push_back(nums[i]);
-        } else {
-            vector<int>::iterator idx = lower_bound(temp.begin(), temp.end(), nums[i]);
-            temp[idx - temp.begin()] = nums[i];
-        }
-    }
-    return temp.size();
-}
-
-// Segment Tree 
-const int offset = 1E4;
 class Solution {
 public:
+    int lengthOfLIS(vector<int> &nums) {
+        int n = nums.size();
+        vector<int> temp;
+        temp.push_back(nums[0]);
+        for(int i = 1; i < n; i++) {
+            if(nums[i] > temp.back()) {
+                temp.push_back(nums[i]);
+            } else {
+                auto idx = lower_bound(temp.begin(), temp.end(), nums[i]);
+                temp[idx - temp.begin()] = nums[i];
+            }
+        }
+        return temp.size();
+    }
+};
+
+// Segment Tree 
+class Solution {
+private:
     int n;
     int maxN = 2E4;
     vector<int> seg;
+    const int offset = 1E4;
     int query(int i, int low, int high, int l, int r) {
         if(low > r || high < l) {
             return 0;
@@ -97,6 +102,7 @@ public:
         }
         seg[i] = max(seg[2 * i + 1], seg[2 * i + 2]);
     }
+public:
     int lengthOfLIS(vector<int>& nums) {
         n = nums.size();
         for(auto &it : nums) {

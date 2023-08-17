@@ -18,11 +18,11 @@ int count(int i, int target, vector<int>& arr, vector<vector<int>>& dp) {
         return dp[i][target];
     }   
     int pick = 0;
-    int notPick = count(i - 1, target, arr, dp);
+    int skip = count(i - 1, target, arr, dp);
     if(arr[i] <= target) {
         pick = count(i - 1, target - arr[i], arr, dp);
     }
-    return dp[i][target] = (pick + notPick);
+    return dp[i][target] = (pick + skip);
 }
 
 int countPartitions(int n, int d, vector<int> &arr) {

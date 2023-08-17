@@ -1,6 +1,8 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+// https://practice.geeksforgeeks.org/problems/knapsack-with-duplicate-items4201/1 
+
 class Solution{
 public:
     int cal(int i, int n, int W, vector<int>& profit, vector<int>& wt, vector<vector<int>>& dp) {
@@ -10,11 +12,11 @@ public:
             return (W / wt[i]) * profit[i];
         if(dp[i][W] != -1)
             return dp[i][W];
-        int notTake = cal(i + 1, n, W, profit, wt, dp);
-        int take = 0;
+        int skip = cal(i + 1, n, W, profit, wt, dp);
+        int pick = 0;
         if(wt[i] <= W)
-            take = profit[i] + cal(i, n, W - wt[i], profit, wt, dp);
-        return dp[i][W] = max(take, notTake);
+            pick = profit[i] + cal(i, n, W - wt[i], profit, wt, dp);
+        return dp[i][W] = max(pick, skip);
     }
     int unboundedKnapsack(int n, int W, vector<int> &profit, vector<int> &weight) {
         vector<vector<int>> dp(n, vector<int> (W + 1, -1));
@@ -32,11 +34,11 @@ public:
         
         for(int i = 1; i < n; i++) {
             for(int j = 1; j <= w; j++) {
-                int notTake = dp[i - 1][j];
-                int take = INT_MIN;
+                int skip = dp[i - 1][j];
+                int pick = INT_MIN;
                 if(weight[i] <= j)
-                    take = val[i] + dp[i][j - weight[i]];
-                dp[i][j] = max(take, notTake);
+                    pick = val[i] + dp[i][j - weight[i]];
+                dp[i][j] = max(pick, skip);
             }
         }
         return dp[n - 1][w];

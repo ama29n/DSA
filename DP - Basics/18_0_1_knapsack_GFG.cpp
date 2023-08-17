@@ -17,12 +17,12 @@ private:
         if(dp[i][W] != -1) {
             return dp[i][W];
         }
-        int nake = dfs(i + 1, W, wt, val);
-        int take = -1E5;
+        int skip = dfs(i + 1, W, wt, val);
+        int pick = -1E5;
         if(wt[i] <= W) {
-            take = val[i] + dfs(i + 1, W - wt[i], wt, val);
+            pick = val[i] + dfs(i + 1, W - wt[i], wt, val);
         }
-        return dp[i][W] = max(nake, take);
+        return dp[i][W] = max(skip, pick);
     }
 public:
     int knapSack(int W, int wt[], int val[], int _n) { 

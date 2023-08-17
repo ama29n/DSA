@@ -4,7 +4,7 @@ using namespace std;
 // https://practice.geeksforgeeks.org/problems/subset-sum-problem-1611555638/1 
 
 // Recursive
-// Time = 2 raised to the power n as for every index, i has 2 options; take & not take 
+// Time = 2 raised to the power n as for every index, i has 2 options; pick & not pick 
 // space = O(n) stack space 
 
 // Memoization
@@ -22,12 +22,12 @@ public:
         if(dp[i][sum] != -1) {
             return dp[i][sum];
         }
-        bool nake = dfs(i + 1, sum, arr, dp);
-        bool take = false;
+        bool skip = dfs(i + 1, sum, arr, dp);
+        bool pick = false;
         if(arr[i] <= sum) {
-            take = dfs(i + 1, sum - arr[i], arr, dp);
+            pick = dfs(i + 1, sum - arr[i], arr, dp);
         }
-        return dp[i][sum] = nake || take;
+        return dp[i][sum] = skip || pick;
     }
     bool isSubsetSum(vector<int> &arr, int sum) {
         n = arr.size();
@@ -53,12 +53,12 @@ public:
                 } else if(j == 0) {
                     dp[i][j] = true;
                 } else {
-                    bool not_take = dp[i - 1][j];
-                    bool take = false;
+                    bool skip = dp[i - 1][j];
+                    bool pick = false;
                     if(arr[i - 1] <= j) {
-                        take = dp[i - 1][j - arr[i - 1]];
+                        pick = dp[i - 1][j - arr[i - 1]];
                     }
-                    dp[i][j] = take || not_take;
+                    dp[i][j] = pick || skip;
                 }
             }
         }

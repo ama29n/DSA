@@ -17,12 +17,12 @@ private:
         if(dp[i][amount] != -1) {
             return dp[i][amount];
         }
-        int nake = dfs(i + 1, amount, coins);
-        int take = 0;
+        int skip = dfs(i + 1, amount, coins);
+        int pick = 0;
         if(coins[i] <= amount) {
-            take = dfs(i, amount - coins[i], coins);
+            pick = dfs(i, amount - coins[i], coins);
         }
-        return dp[i][amount] = take + nake;
+        return dp[i][amount] = pick + skip;
     }
 public:
     int change(int amount, vector<int> &coins) {

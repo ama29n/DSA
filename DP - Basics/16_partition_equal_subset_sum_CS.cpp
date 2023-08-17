@@ -16,12 +16,12 @@ bool subsetSumToK(int n, int k, vector<int> &arr) {
             } else if(j == 0) {
                 dp[i][j] = true;
             } else {
-                bool not_take = dp[i - 1][j];
-                bool take = false;
+                bool skip = dp[i - 1][j];
+                bool pick = false;
                 if(arr[i - 1] <= j) {
-                    take = dp[i - 1][j - arr[i - 1]];
+                    pick = dp[i - 1][j - arr[i - 1]];
                 }
-                dp[i][j] = take || not_take;
+                dp[i][j] = pick || skip;
             }
         }
     }

@@ -21,12 +21,12 @@ int dfs(int i, int k, vector<int> &nums, vector<vector<int>> &dp) {
     if(dp[i][k] != -1) {
         return dp[i][k];
     }
-    int not_take = dfs(i + 1, k, nums, dp);
-    int take = 0;
+    int skip = dfs(i + 1, k, nums, dp);
+    int pick = 0;
     if(nums[i] <= k) {
-        take = dfs(i + 1, k - nums[i], nums, dp);
+        pick = dfs(i + 1, k - nums[i], nums, dp);
     }
-    return dp[i][k] = take + not_take;
+    return dp[i][k] = pick + skip;
 }
 int findWays(vector<int> &nums, int K) {
     int n = nums.size(); 
@@ -47,12 +47,12 @@ int findWays(vector<int> &nums, int K) {
             } else if(k == 0) {
                 dp[i][k] = 1;
             } else {
-                int not_take = dp[i - 1][k];
-                int take = 0;
+                int skip = dp[i - 1][k];
+                int pick = 0;
                 if(nums[i - 1] <= k) {
-                    take = dp[i - 1][k - nums[i - 1]];
+                    pick = dp[i - 1][k - nums[i - 1]];
                 }
-                dp[i][k] = take + not_take;
+                dp[i][k] = pick + skip;
             } 
         }
     }
@@ -77,12 +77,12 @@ int dfs(int i, int k, vector<int> &nums, vector<vector<int>> &dp) {
     if(dp[i][k] != -1) {
         return dp[i][k];
     }
-    int not_take = dfs(i + 1, k, nums, dp);
-    int take = 0;
+    int skip = dfs(i + 1, k, nums, dp);
+    int pick = 0;
     if(nums[i] <= k) {
-        take = dfs(i + 1, k - nums[i], nums, dp);
+        pick = dfs(i + 1, k - nums[i], nums, dp);
     }
-    return dp[i][k] = (take + not_take) % MOD;
+    return dp[i][k] = (pick + skip) % MOD;
 }
 int findWays(vector<int> &nums, int K) {
     int n = nums.size(); 

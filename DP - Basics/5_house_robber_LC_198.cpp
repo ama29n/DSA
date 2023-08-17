@@ -13,9 +13,9 @@ private:
         if(dp[i] != -1) {
             return dp[i];
         }
-        int take = dfs(i + 2, nums) + nums[i];
-        int nake = dfs(i + 1, nums);
-        return dp[i] = max(take, nake);
+        int pick = dfs(i + 2, nums) + nums[i];
+        int skip = dfs(i + 1, nums);
+        return dp[i] = max(pick, skip);
     }
 public:
     int rob(vector<int> &nums) {
@@ -33,9 +33,9 @@ public:
         vector<int> dp(n, 0);
         dp[0] = nums[0];
         for(int i = 1; i < n; i++) {
-            int take = nums[i] + (i - 2 >= 0 ? dp[i - 2] : 0);
-            int nake = dp[i - 1];
-            dp[i] = max(take, nake);
+            int pick = nums[i] + (i - 2 >= 0 ? dp[i - 2] : 0);
+            int skip = dp[i - 1];
+            dp[i] = max(pick, skip);
         }
         return dp[n - 1];
     }
@@ -55,9 +55,9 @@ private:
         if(dp[i] + 1) {
             return dp[i];
         }
-        int take = dfs(i + 2, n, nums) + nums[i];
-        int nake = dfs(i + 1, n, nums);
-        return dp[i] = max(take, nake);
+        int pick = dfs(i + 2, n, nums) + nums[i];
+        int skip = dfs(i + 1, n, nums);
+        return dp[i] = max(pick, skip);
     }
 public:
     int rob(vector<int>& nums) {
