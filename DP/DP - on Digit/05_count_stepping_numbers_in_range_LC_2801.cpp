@@ -6,29 +6,29 @@ using namespace std;
 class Solution {
 public:
     const int MOD = 1E9 + 7;
-    int dp[101][12][2][2];
-    int dfs(int idx, int prev, bool isZero, bool tight, string &digits) {
+    int dp[101][12][2];
+    int dfs(int idx, int prev, bool tight, string &digits) {
         if(idx == digits.length()) {
-            return (!isZero) ? 1 : 0;
+            return prev != -1 ? 1 : 0;
         }
 
-        if(dp[idx][prev + 1][isZero][tight] != -1) return dp[idx][prev + 1][isZero][tight];
+        if(dp[idx][prev + 1][tight] != -1) return dp[idx][prev + 1][tight];
 
         int limit = 9, res = 0;
         if(tight) limit = (digits[idx] - '0');
 
         for(int dig = 0; dig <= limit; dig++) {
             if(prev == -1 || abs(dig - prev) == 1) {
-                res = ( res + dfs(idx + 1, (isZero & (dig == 0)) ? -1 : dig, (isZero & (dig == 0)), 
+                res = ( res + dfs(idx + 1, (prev == -1 && dig == 0) ? -1 : dig, 
                         (tight & (dig == limit)), digits) ) % MOD;
             }
         }
 
-        return dp[idx][prev + 1][isZero][tight] = res;
+        return dp[idx][prev + 1][tight] = res;
     }
     int go(string &x) {
         memset(dp, -1, sizeof(dp));
-        return dfs(0, -1, true, true, x);
+        return dfs(0, -1, true, x);
     }
     int countSteppingNumbers(string &L, string &R) {
         int n = L.size();

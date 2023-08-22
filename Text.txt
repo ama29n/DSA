@@ -42,3 +42,9 @@
         nums1[i] = i;
     }
 
+9. Size of array without sizeof()
+    int main () {
+        int arr[100];
+        cout << (&arr)[1] - arr;
+        return 0;
+    }
