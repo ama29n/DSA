@@ -15,29 +15,30 @@ public:
     // isZero: Flag indicating whether a non-zero digit has been encountered
     // actual_length: The length of the number formed so far (ignoring leading zeros)
     // digits: The vector of digits of the number
-    int find(int idx, bool tight, int sum, int odd, bool isZero, int actual_length, string &digits) {
-        // Base case: If we've formed the entire number, check if it's beautiful
+    int find(int idx, bool tight, int sum, int odd, bool isZero, int even, string &digits) {
         if(idx == digits.size()) {
-            return (((actual_length - odd) == odd) && (sum == 0) && !isZero) ? 1 : 0;
+            return ((even == odd) && (sum == 0) && !isZero) ? 1 : 0;
         }
 
-        if(dp[idx][actual_length][tight][sum][odd][isZero] != -1)
-            return dp[idx][actual_length][tight][sum][odd][isZero];
+        if(dp[idx][even][tight][sum][odd][isZero] != -1)
+            return dp[idx][even][tight][sum][odd][isZero];
 
         int limit = 9, res = 0;
-        if(tight) limit = (digits[idx] - '0'); // Determine the limit for the digit based on tightness
+        if(tight) limit = (digits[idx] - '0');
 
         for(int dig = 0; dig <= limit; dig++) {
-            res += find(idx + 1, (tight & (dig == limit)), (10 * sum + dig) % k, odd + (dig % 2),
-                        (isZero & (dig == 0)), (isZero & (dig == 0)) ? 0 : actual_length + 1, digits);
-            // Recurse to the next digit position with updated states
+            bool leadingZero = (isZero & (dig == 0));
+            bool isTight = (tight & (dig == limit));
+            res += find(idx + 1, isTight, (10 * sum + dig) % k, odd + (dig % 2), leadingZero, 
+                    leadingZero ? 0 : even + !(dig % 2), digits);
         }
-        return (dp[idx][actual_length][tight][sum][odd][isZero] = res); // Return the sum of all possibilities
+
+        return (dp[idx][even][tight][sum][odd][isZero] = res); 
     }
     int go(int x) {
         memset(dp, -1, sizeof(dp));
         string digits = to_string(x);
-        return find(0, true, 0, 0, true, 0, digits); // Start finding beautiful numbers
+        return find(0, true, 0, 0, true, 0, digits);
     }
     int numberOfBeautifulIntegers(int low, int high, int K) {
         k = K;
