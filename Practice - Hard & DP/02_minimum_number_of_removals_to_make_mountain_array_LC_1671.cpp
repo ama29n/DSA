@@ -7,8 +7,6 @@ class Solution {
 private: 
     #define all(x)      x.begin(), x.end()
     int n;
-    // LIS will return dp[]
-    // dp[i] -> LIS till ith ele
     vector<int> LIS(vector<int> &nums) {
         vector<int> dp(n, 1);
         for(int i = 0; i < n; i++) {

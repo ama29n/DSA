@@ -3,7 +3,7 @@ using namespace std;
 
 // https://leetcode.com/problems/tallest-billboard/ 
 
-class Solution {
+class Inefficient {
 private:
     int n;
 
@@ -29,7 +29,6 @@ public:
     }
 };
 
-// Efficient Approach
 class Solution {
 private:
     // (s1 = s2) -> (s1 - s2 = 0)

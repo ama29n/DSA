@@ -1,31 +1,45 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Input: nums = [1,3,-1,-3,5,3,6,7], k = 3
-// Output: [3,3,5,5,6,7]
-
-// Approach
-// The queue will store elements of the window in ascending order 
+// https://leetcode.com/problems/sliding-window-maximum/ 
 
 class Solution {
+private:
+    deque<int> q;
 public:
-    vector<int> maxSlidingWindow(vector<int>& nums, int k) {
-      deque<int> q;
-      vector<int> ans;
-      
-      for(int i = 0; i < nums.size(); i++) {
-        while(!q.empty() && nums[i] > nums[q.back()])
-            q.pop_back();
-        
-        if(!q.empty() && i - q.front() == k) 
-            q.pop_front();
-          
-        q.push_back(i);
+    vector<int> maxSlidingWindow(vector<int> &nums, int k) {
+        vector<int> ans;
+        for(int i = 0; i < nums.size(); i++) {
+            // Queue will store index of elements in ascending order
+            // Delete small elements from right side
+            while(!q.empty() && nums[i] > nums[q.back()]) {
+                q.pop_back();
+            }
 
-        if(i >= k - 1)
-            ans.push_back(nums[q.front()]);
-      }
+            // If the leftmost element is now out of window (also it is the greatest)
+            if(!q.empty() && i - q.front() == k) {
+                q.pop_front();
+            }
 
-      return ans;
-  }
+            // Insert current element into the queue
+            q.push_back(i);
+
+            if(i >= k - 1) {
+                ans.push_back(nums[q.front()]);
+            }
+        }
+        return ans;
+    }
 };
+
+// Accessing Elements - O(1)
+// Insertion or removal of elements - O(N)
+// Insertion or removal of elements at start or end - O(1)
+
+// The deque Q is      - 15, 20, 10, 30
+// Q.size()            - 4
+// Q.at(2)             - 10
+// Q.front()           - 15
+// Q.back()            - 30
+// Q.pop_front()       - 20, 10, 30
+// Q.pop_back()        - 20, 10

@@ -1,0 +1,8 @@
+Optimization and Maximum/Minimum Values -- All three problems involve optimization tasks where you need to either 
+    maximize or minimize a certain value while satisfying specific conditions.
+
+Selection of Elements -- In each problem, you need to select a specific subset of elements to achieve the 
+    desired optimization goal.
+
+Combining Values -- In all three problems, the final result or score is calculated by combining values from 
+    different sources in an optimized manner.

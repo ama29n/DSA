@@ -1,62 +1,60 @@
 #include <bits/stdc++.h>
-using namespace std;
+using namespace std; 
+
+// https://leetcode.com/problems/maximal-rectangle/
 
 class Solution {
-public:
-    int largestRectangleArea(vector<int>& heights) {
-        int n = heights.size();
-        vector<int> next(n), prev(n);
+private:
+    int m, n;
+    vector<int> nextSmaller(vector<int> &nums) {
+        vector<int> next(n, n);
         stack<int> s;
-        
-        prev[0] = -1;
-        s.push(0);
-        for(int i = 1; i < n; i++) {
-            while(!s.empty() && heights[s.top()] >= heights[i])
-                s.pop();
-            prev[i] = !s.empty() ? s.top() : -1;
-            s.push(i);
-        }
-        
-        while(!s.empty())
-            s.pop();
-        
-        next[n - 1] = n;
         s.push(n - 1);
         for(int i = n - 2; i >= 0; i--) {
-            while(!s.empty() && heights[s.top()] >= heights[i])
-                s.pop();
-            next[i] = !s.empty() ? s.top() : n;
+            while(!s.empty() && nums[s.top()] >= nums[i]) s.pop();
+            next[i] = s.empty() ? n : s.top();
             s.push(i);
         }
-        
+        return next;
+    }
+    vector<int> prevSmaller(vector<int> &nums) {
+        vector<int> prev(n, -1);
+        stack<int> s;
+        s.push(0);
+        for(int i = 1; i < n; i++) {
+            while(!s.empty() && nums[s.top()] >= nums[i]) s.pop();
+            prev[i] = s.empty() ? -1 : s.top();
+            s.push(i);
+        }
+        return prev;
+    }
+    int largestRectangleArea(vector<int> &heights) {
+        vector<int> next = nextSmaller(heights);
+        vector<int> prev = prevSmaller(heights);
         int ans = 0;
         for(int i = 0; i < n; i++) {
             ans = max(ans, (next[i] - prev[i] - 1) * heights[i]);
         }
-        
         return ans;
     }
-    int maximalRectangle(vector<vector<char>>& grid) {
-        int m = grid.size(), n = grid[0].size();
-        
+public:
+    int maximalRectangle(vector<vector<char>> &grid) {
+        m = grid.size(); n = grid[0].size();
         vector<vector<int>> matrix(m, vector<int> (n, 0));
         for(int i = 0; i < m; i++)
             for(int j = 0; j < n; j++)
                 if(grid[i][j] == '1')
                     matrix[i][j] = 1;
-        
-        int ans = largestRectangleArea(matrix[0]);
-        
-        for(int i = 1; i < m; i++) {
+        int ans = 0;
+        for(int i = 0; i < m; i++) {
             for(int j = 0; j < n; j++) {
-                if(matrix[i][j] == 1)
+                if(i != 0 && matrix[i][j] == 1) {
                     matrix[i][j] += matrix[i - 1][j];
+                }
             }
-            int cal = largestRectangleArea(matrix[i]);
-            if(cal > ans)
-                ans = cal;
+            int temp = largestRectangleArea(matrix[i]);
+            ans = max(ans, temp);
         }
-        
         return ans;
     }
 };

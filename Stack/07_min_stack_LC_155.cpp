@@ -1,82 +1,63 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// With Extra Space 
-// Use 2 stacks
-class MinStack {
+class Inefficient {
+private:
+    stack<int> main_stack, mini_stack;
 public:
-    stack<int> s, ss;
-    
     MinStack() {
-        // ss -> supporting stack
-        // This Stack stores the minimum element up until current point
+        // Use 2 stacks
     }
-
-    // <= condition 
-    // ["MinStack","push","push","push","getMin","pop","getMin"]
-    // [[],[0],[1],[0],[],[],[]]
-    
     void push(int val) {
-        s.push(val);
-        if(ss.empty() || val <= ss.top())
-            ss.push(val);
+        main_stack.push(val);
+        if(mini_stack.empty() || val <= mini_stack.top())
+            mini_stack.push(val);
     }
-    
     void pop() {
-        int popEle = s.top();
-        s.pop();
-        if(ss.top() == popEle)
-            ss.pop();
+        int temp = main_stack.top();
+        main_stack.pop();
+        if(mini_stack.top() == temp)
+            mini_stack.pop();
     }
-    
     int top() {
-        return s.top();
+        return main_stack.top();
     }
-    
     int getMin() {
-        return ss.top();
+        return  mini_stack.top();
     }
 };
 
 
 // With Constant Space 
 class MinStack {
-public:
+private:
     stack<int> s;
-    int minEle;
-    
+    int min_ele;
+public:   
     MinStack() {
-        minEle = 0;
+        min_ele = 0;
     }
-    
     void push(int val) {
         if(s.empty()) {
-            s.push(val);
-            minEle = val;
-            return;
+            s.push(val);  min_ele = val;  return;
         }
-        if(val >= minEle) {
-            s.push(val);
-            return;
+        if(val >= min_ele) {
+            s.push(val);  return;
         }
-        s.push((2 * val) - minEle);
-        minEle = val;
-    }
-    
+        s.push((2 * val) - min_ele);
+        min_ele = val;
+    } 
     void pop() {
-        if(s.top() >= minEle) {
-            s.pop();
-            return;
+        if(s.top() >= min_ele) {
+            s.pop();  return;
         }
-        minEle = (2 * minEle) - s.top();
+        min_ele = (2 * min_ele) - s.top();
         s.pop();
     }
-    
     int top() {
         return s.top();
     }
-    
     int getMin() {
-        return minEle;
+        return min_ele;
     }
 };
