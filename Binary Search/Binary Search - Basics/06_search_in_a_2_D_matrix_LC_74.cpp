@@ -4,19 +4,22 @@ using namespace std;
 // https://leetcode.com/problems/search-a-2d-matrix/ 
 
 // Time Complexity - O(m + n) 
+
 class Solution {
 public:
-    bool searchMatrix(vector<vector<int>>& matrix, int target) {
-        int row = matrix.size(), col = matrix[0].size(), i = 0, j = col - 1;
-        while(i < row && j >= 0) {
-            int el = matrix[i][j];
-            if(el == target) {
+    bool searchMatrix(vector<vector<int>> &matrix, int T) {
+        int m = matrix.size(), n = matrix[0].size();
+        int i = 0, j = n - 1;
+        while(i < m && j >= 0) {
+            int &ele = matrix[i][j];
+            if(ele == T) {
                 return true;
             }
-            if(el > target) {
+            if(ele > T) {
                 j--;
+            } else {
+                i++;
             }
-            else i++;
         }
         return false;
     }

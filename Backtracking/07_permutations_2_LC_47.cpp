@@ -4,29 +4,26 @@ using namespace std;
 // https://leetcode.com/problems/permutations-ii/ 
 
 class Solution {
-public:
+private:
     vector<vector<int>> ans;
-    
-    void permutation(vector<int> &nums, int l, int r) {
-        if(l == r) {
+    void dfs(int i, int n, vector<int> &nums) {
+        if(i == n) {
             ans.push_back(nums);
             return;
         }
-        unordered_set<int> s;
-        for(int i = l; i < r; i++) {
-            
-            if(s.find(nums[i]) == s.end()) {
-                
-                s.insert(nums[i]);
-                swap(nums[i], nums[l]);
-                permutation(nums, l + 1, r);
-                swap(nums[i], nums[l]);
+        unordered_set<int> set;
+        for(int j = i; j < n; j++) {
+            if(set.find(nums[j]) == set.end()) {
+                set.insert(nums[j]);
+                swap(nums[i], nums[j]);
+                dfs(i + 1, n, nums);
+                swap(nums[i], nums[j]);
             }
         }
     }
+public:
     vector<vector<int>> permuteUnique(vector<int>& nums) {
-        // sort(nums.begin(), nums.end());
-        permutation(nums, 0, nums.size());
+        dfs(0, nums.size(), nums);
         return ans;
     }
 };

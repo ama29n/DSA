@@ -1,33 +1,35 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// https://leetcode.com/problems/maximum-candies-allocated-to-k-children/
+
 class Solution {
-public:
-    typedef long long ll;
-    
-    bool canSplit(ll size, vector<int>& candies, long long k) {
+private:
+    #define ll long long
+    int n;
+    bool check(int mid, vector<int> &nums, ll k) {
         ll count = 0;
-        for(auto it : candies)
-            count += (it / size);
-        if(count >= k)
-            return true;
+        for(auto it : nums) {
+            count += (it / mid);
+        }
+        if(count >= k) return true;
         return false;
     }
-    
-    int maximumCandies(vector<int>& candies, long long k) {
-        ll beg = 1, end = LLONG_MIN, maxCandies = 0;
-        for(auto it : candies)
-            if(it > end)
-                end = it;
+public:
+    int maximumCandies(vector<int> &candies, long long k) {
+        n = candies.size();
+        int beg = 1, end = 0;
+        for(auto it : candies) end = max(end, it);
+        int ans = 0;
         while(beg <= end) {
-            ll mid = beg + (end - beg) / 2;
-            if(canSplit(mid, candies, k)) {
+            int mid = beg + (end - beg) / 2;
+            if(check(mid, candies, k)) {
+                ans = mid;
                 beg = mid + 1;
-                maxCandies = mid;
             } else {
                 end = mid - 1;
             }
         }
-        return maxCandies;
+        return ans;
     }
 };

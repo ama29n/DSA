@@ -1,32 +1,35 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+// https://leetcode.com/problems/minimum-limit-of-balls-in-a-bag/ 
+
 class Solution {
-public:
-    bool check(int cap, vector<int>& nums, int maxOps) {
+private:
+    int n;
+    bool check(int cap, vector<int> &nums, int maxi) {
         int count = 0;
-        for(auto it : nums) {
+        for(auto &it : nums) {
             count += (it / cap);
-            if(it % cap == 0)
-                count--;
+            if(it % cap == 0) count --;
         }
-        if(count <= maxOps)
-            return true;
+        if(count <= maxi) return true;
         return false;
     }
-    int minimumSize(vector<int>& nums, int maxOps) {
-        int beg = 1, end = nums[0], maxBalls;
-        for(auto it : nums)
-            end = max(end, it);
+public:
+    int minimumSize(vector<int> &nums, int maxi) {
+        n = nums.size();
+        int beg = 1, end = 0;
+        for(auto it : nums) end = max(end, it);
+        int ans;
         while(beg <= end) {
-            int mid = beg + (end - beg) / 2;
-            if(check(mid, nums, maxOps)) {
-                maxBalls = mid;
-                end = mid - 1;
+            int cap = beg + (end - beg) / 2;
+            if(check(cap, nums, maxi)) {
+                ans = cap;
+                end = cap - 1;
             } else {
-                beg = mid + 1;
+                beg = cap + 1;
             }
         }
-        return maxBalls;
+        return ans;
     }
 };

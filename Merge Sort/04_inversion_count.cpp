@@ -30,8 +30,8 @@ void merge(ll l, ll m, ll r) {
     vector<ll> v(n);
     ll i = l, j = m + 1, k = 0;
     while(k < n) {
-        ll x = i <= m ? nums[i] : LLONG_MAX;
-        ll y = j <= r ? nums[j] : LLONG_MAX;
+        ll x = i <= m ? nums[i] : INT_MAX;
+        ll y = j <= r ? nums[j] : INT_MAX;
         v[k++] = x <= y ? nums[i++] : nums[j++]; 
     }
     for(ll idx = 0; idx < n; idx++) {
@@ -42,14 +42,15 @@ ll mergeSort(ll l, ll r) {
     if(l >= r) {
         return 0;
     }
-    ll m = l + (r - l) / 2;
+    int m = l + (r - l) / 2;
     ll ans = mergeSort(l, m) + mergeSort(m + 1, r);
-    ll i = l, j = m + 1;
+    int i = l, j = m + 1;
     while(i <= m && j <= r) {
-        if(nums[i] > nums[j]) {
-            ans += (m - i + 1); j++;
+        if(nums[i] > nums[j]) {         // 5 6 7 8       1 2 9 10
+            ans += (m - i + 1);
+            j++;
         } else {
-            i++;    
+            i++;
         }
     }
     merge(l, m, r);

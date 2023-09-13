@@ -6,21 +6,21 @@ using namespace std;
 class Solution {
 public:
     int findMin(vector<int> &nums) {
-        int n = nums.size();
-        int beg = 0, end = n - 1;
-        while(beg < end) {
-            if(nums[beg] < nums[end]) {
-                return nums[beg];
+        int l = 0, r = nums.size() - 1;
+        while(l < r) {
+            if(nums[l] < nums[r]) {
+                break;
             }
-            int mid = beg + (end - beg) / 2;
-            if(nums[beg] < nums[mid]) {
-                beg = mid + 1;
-            } else if(nums[beg] > nums[mid]) {
-                end = mid;
+            int m = l + (r - l) / 2;
+            if(nums[l] == nums[m]) {
+                l++; continue;
+            }
+            if(nums[l] < nums[m]) {
+                l = m + 1;
             } else {
-                beg++;
+                r = m;
             }
         }
-        return nums[beg];
+        return nums[l];
     }
 };

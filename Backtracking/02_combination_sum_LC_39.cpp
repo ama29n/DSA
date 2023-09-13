@@ -5,56 +5,25 @@ using namespace std;
 
 // Approach 1
 class Solution {
-public:
-    int n;
+private:
     vector<vector<int>> ans;
-    void dfs(int idx, vector<int> &can, vector<int> &v, int t) {
-        if(t == 0) {
+    void dfs(int i, vector<int> &can, int T, vector<int> &v) {
+        if(T == 0) {
             ans.push_back(v);
             return;
         }
-        if(idx == n) {
-            return;
-        }
-        for(int i = idx; i < n; i++) {
-            if(can[i] <= t) {
-                v.push_back(can[i]);
-                dfs(i, can, v, t - can[i]);
+        for(int j = i; j < can.size(); j++) {
+            if(can[j] <= T) {
+                v.push_back(can[j]);
+                dfs(j, can, T - can[j], v);
                 v.pop_back();
             }
         }
     }
-    vector<vector<int>> combinationSum(vector<int> &can, int target) {
-        n = can.size();
-        vector<int> v;
-        dfs(0, can, v, target);
-        return ans;
-    }
-};
-
-// Approach 2
-class Solution {
 public:
-    int n;
-    vector<vector<int>> ans;
-    void dfs(int idx, vector<int> &can, vector<int> &v, int t) {
-        if(idx == n) {
-            if(t == 0) {
-                ans.push_back(v);
-            }
-            return;
-        }
-        if(can[idx] <= t) {
-            v.push_back(can[idx]);
-            dfs(idx, can, v, t - can[idx]);
-            v.pop_back();
-        }
-        dfs(idx + 1, can, v, t);
-    }
-    vector<vector<int>> combinationSum(vector<int> &can, int target) {
-        n = can.size();
+    vector<vector<int>> combinationSum(vector<int> &can, int T) {
         vector<int> v;
-        dfs(0, can, v, target);
+        dfs(0, can, T, v);
         return ans;
     }
 };

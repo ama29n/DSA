@@ -10,7 +10,7 @@ public:
         int beg = 0, end = n - 1;
         while(beg < end) {
             if(nums[beg] < nums[end]) {
-                return nums[beg];
+                break;
             }
             int mid = beg + (end - beg) / 2;
             if(nums[beg] <= nums[mid]) {

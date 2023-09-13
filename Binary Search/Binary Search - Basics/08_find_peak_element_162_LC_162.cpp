@@ -16,6 +16,7 @@ public:
                 end = mid;
             }
         }
+        // Algorithm positions "beg" to the greatest element
         return beg;
     }
 };
