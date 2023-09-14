@@ -3,16 +3,11 @@ using namespace std;
 
 // https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/
 
-// In Recursion
-// Time = 2 raised to power n
-// Space = O(n) i.e., the stack space 
-
 // Memoization
 class Solution {
-public:
+private:
     int n;
     vector<vector<int>> dp;
-    // i -> 1 = buy; i -> 0 = sell
     int dfs(int i, int buy, vector<int> &prices) {
         if(i == n) {
             return 0;
@@ -20,17 +15,18 @@ public:
         if(dp[i][buy] != -1) {
             return dp[i][buy];
         }
-        int take, not_take;
         if(buy) {
-            take = -prices[i] + dfs(i + 1, 0, prices);
-            not_take = dfs(i + 1, 1, prices);
+            int pick = -prices[i] + dfs(i + 1, 0, prices);
+            int skip = dfs(i + 1, 1, prices);
+            return dp[i][buy] = max(pick, skip);
         } else {
-            take = prices[i] + dfs(i + 1, 1, prices);
-            not_take = dfs(i + 1, 0, prices);
+            int pick = prices[i] + dfs(i + 1, 1, prices);
+            int skip = dfs(i + 1, 0, prices);
+            return dp[i][buy] = max(pick, skip);
         }
-        return dp[i][buy] = max(take, not_take);
     }
-    int maxProfit(vector<int>& prices) {
+public:
+    int maxProfit(vector<int> &prices) {
         n = prices.size();
         dp.resize(n, vector<int> (2, -1));
         return dfs(0, 1, prices);

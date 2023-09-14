@@ -3,12 +3,12 @@ using namespace std;
 
 // https://practice.geeksforgeeks.org/problems/m-coloring-problem-1587115620/1 
 
-class Solution{
+class Solution {
 public:
     int m, n;
-    bool check(int node, int num, vector<int> &color, bool graph[101][101]) {
+    bool check(int node, int candidate_color, vector<int> &color, bool graph[101][101]) {
         for(int i = 0; i < n; i++) {
-            if(graph[node][i] && num == color[i]) return false;
+            if(graph[node][i] && candidate_color == color[i]) return false;
         }
         return true;
     }

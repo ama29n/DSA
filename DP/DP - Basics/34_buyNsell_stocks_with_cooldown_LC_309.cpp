@@ -5,31 +5,31 @@ using namespace std;
 
 // Memoization 
 class Solution {
-public:
-    int  n;
-    int find(int i, int buy, vector<int>& prices, vector<vector<int>>& dp) {
-        if(i == n) {
+private:
+    int n;
+    vector<vector<int>> dp;
+    int dfs(int i, int buy, vector<int> &prices) {
+        if(i >= n) {
             return 0;
         }
         if(dp[i][buy] != -1) {
             return dp[i][buy];
         }
-        int profit = 0;
         if(buy) {
-            int notTake = find(i + 1, 1, prices, dp);
-            int take = -prices[i] + find(i + 1, 0, prices, dp);
-            profit = max(take, notTake);
+            int pick = -prices[i] + dfs(i + 1, 0, prices);
+            int skip = dfs(i + 1, 1, prices);
+            return dp[i][buy] = max(pick, skip);
         } else {
-            int notTake = find(i + 1, 0, prices, dp);
-            int take = prices[i] + find(i + 2, 1, prices, dp);
-            profit = max(take, notTake);
+            int pick = prices[i] + dfs(i + 2, 1, prices);
+            int skip = dfs(i + 1, 0, prices);
+            return dp[i][buy] = max(pick, skip);
         }
-        return dp[i][buy] = profit;
     }
-    int maxProfit(vector<int>& prices) {
+public:
+    int maxProfit(vector<int> &prices) {
         n = prices.size();
-        vector<vector<int>> dp(n + 1, vector<int> (2, -1));
-        return find(0, 1, prices, dp);
+        dp.resize(n, vector<int> (2, -1));
+        return dfs(0, 1, prices);    
     }
 };
 

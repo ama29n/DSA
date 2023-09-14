@@ -5,51 +5,55 @@ using namespace std;
 
 // Priority Queue Method
 class Solution {
-    #define ff   first
-    #define ss   second
+private:
+    #define ff  first
+    #define ss  second
     typedef pair<int, int> P;
-    public:
+public:
     vector<int> dijkstra(int V, vector<vector<int>> adj[], int S) {
         vector<int> path(V, INT_MAX);
         path[S] = 0;
-        priority_queue<P, vector<P>, greater<P>> q;
-        q.push({0, S});
-        while(!q.empty()) {                                               
-            int min_path = q.top().ff, node = q.top().ss;                     // O(V log V)
+        priority_queue<P, vector<P>, greater<P>> q;         // Min Heap
+        q.push({ 0, S });
+        while(!q.empty()) {
+            int node_path = q.top().ff, node = q.top().ss;  // O(V log V)
             q.pop();
-            if(min_path > path[node]) continue;
-            for(auto it : adj[node]) {                                         // O(v + E)
-                int child_path = min_path + it[1], child = it[0];
+            if(node_path > path[node]) continue;
+            for(auto it : adj[node]) {                      // O(V + E)
+                int child = it[0], child_path = node_path + it[1];
                 if(child_path < path[child]) {
                     path[child] = child_path;
-                    q.push({child_path, child});                               // O((V + E) log V)
+                    q.push({ child_path, child });           // O((V + E) log V)
                 }
             }
         }
         return path;
     }
 };
-// the time to visit each vertex becomes O(V + E) and 
-// the time required to process all the neighbours of a vertex becomes O(log V)
+// The time to visit each vertex becomes O(V + E) and 
+// The time required to process all the neighbours of a vertex becomes O(log V)
 
 // Normal Approach
 class Solution {
-	public:
+public:
     vector<int> dijkstra(int V, vector<vector<int>> adj[], int S) {
         vector<int> path(V, INT_MAX);
         vector<int> vis(V, 0);
         path[S] = 0;
-        for(int i = 0; i < V - 1; i++) {                            // O(V)
-            int min_path = INT_MAX, node;
-            for(int j = 0; j < V; j++) {                            // O(V)
-                if(path[j] < min_path && !vis[j]) {
-                    min_path = path[j]; node = j;
+        for(int i = 0; i < V - 1; i++) {                // O(V)
+            int node, node_path = INT_MAX;
+            // Finding the node with minimum path
+            for(int j = 0; j < V; j++) {                // O(V)
+                if(!vis[j] && path[j] < node_path) {
+                    node_path = path[j]; node = j;
                 }
             }
+            // Make the node visited
             vis[node] = 1;
+            // Determine the minimum path to neighbours via node
             for(auto it : adj[node]) {
-                int child_path = min_path + it[1], child = it[0];
-                if(child_path < path[child] && !vis[child]) {
+                int child = it[0], child_path = node_path + it[1];
+                if(!vis[child] && child_path < path[child]) {
                     path[child] = child_path;
                 }
             }
@@ -57,3 +61,4 @@ class Solution {
         return path;
     }
 };
+// Time Complexity - O(V)

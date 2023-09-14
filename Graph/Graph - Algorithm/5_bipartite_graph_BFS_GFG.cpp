@@ -7,7 +7,7 @@ using namespace std;
 
 class Solution {
 public:
-	bool isBipartite(int V, vector<int>adj[]){
+	bool isBipartite(int V, vector<int> adj[]) {
 	    vector<int> color(V, -1);
 	    for(int i = 0; i < V; i++) {
 	        if(color[i] == -1) {
