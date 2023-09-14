@@ -15,7 +15,7 @@ struct TreeNode {
 
 class Solution {
 private:
-    int max_so_far = INT_MIN;
+    int max_path = INT_MIN;
 public:
     int dfs(TreeNode *root) {
         if(!root) {
@@ -29,17 +29,17 @@ public:
         // max_till_now -> assure path won't be discontinuous
         int max_till_now = max({ root->val, r + root->val, l + root->val });
 
-        // max_path_in_subtrees -> forms the max path b/w 2 leaf nodes, through current node
-        int max_path_in_subtrees = root->val + l + r;
+        // path_through_subtrees -> forms the max path b/w 2 leaf nodes, through current node
+        int path_through_subtrees = root->val + l + r;
         
-        // max_so_far -> maintains the max path
-        max_so_far = max({ max_so_far, max_till_now, max_path_in_subtrees });
+        // max_path -> maintains the max path
+        max_path = max({ max_path, max_till_now, path_through_subtrees });
 
         // return
         return max_till_now;
     }
     int maxPathSum(TreeNode* root) {
         int p = dfs(root);
-        return max_so_far;
+        return max_path;
     }
 };

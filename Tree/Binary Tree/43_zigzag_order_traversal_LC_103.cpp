@@ -19,38 +19,27 @@ public:
     vector<vector<int>> zigzagLevelOrder(TreeNode *root) {
         if(!root) return {};
         vector<vector<int>> ans;
-        stack<TreeNode *> p, ch;
+        stack<TreeNode *> parent, child;
+        parent.push(root);
         int level = 0;
-        p.push(root);
-        while(!p.empty()) {
-            int n = p.size();
-            vector<int> row;
+        while(!parent.empty()) {
+            int n = parent.size();
+            vector<int> v;
             while(n--) {
-                TreeNode *node = p.top();
-                p.pop();
-                row.push_back(node->val);
+                TreeNode *node = parent.top(); parent.pop();
+                v.push_back(node->val);
                 if(level % 2 == 0) {
-                    if(node->left) {
-                        ch.push(node->left);
-                    }
-                    if(node->right) {
-                        ch.push(node->right);
-                    }
+                    if(node->left) child.push(node->left);
+                    if(node->right) child.push(node->right);
                 } else {
-                    if(node->right) {
-                        ch.push(node->right);
-                    } 
-                    if(node->left) {
-                        ch.push(node->left);
-                    }
+                    if(node->right) child.push(node->right);
+                    if(node->left) child.push(node->left);
                 }
             }
+            ans.push_back(v);
             level++;
-            p = ch;
-            ans.push_back(row);
-            while(!ch.empty()) {
-                ch.pop();
-            }
+            parent = child;
+            while(!child.empty()) child.pop();
         }
         return ans;
     }

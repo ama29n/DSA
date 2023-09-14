@@ -14,9 +14,9 @@ public:
     typedef long long ll;
     class Help {
     public:
-        bool isBST; ll smallest, largest;
+        bool isBST; ll mini, maxi;
         Help() {
-            isBST = true; largest = LLONG_MIN; smallest = LLONG_MAX;
+            isBST = true; maxi = LLONG_MIN; mini = LLONG_MAX;
         }
     } def;
     Help dfs(TreeNode *root) {
@@ -24,16 +24,12 @@ public:
             return def;
         }
         Help l = dfs(root->left), r = dfs(root->right), h;
-        if(!l.isBST || !r.isBST) {
+        if(!l.isBST || !r.isBST || root->val <= l.maxi || root->val >= r.mini) {
             h.isBST = false;
             return h;
         }
-        if(root->val <= l.largest || root->val >= r.smallest) {
-            h.isBST = false;
-            return h;
-        }
-        h.smallest = min((ll)root->val, l.smallest);
-        h.largest = max((ll)root->val, r.largest);
+        h.mini = min((ll)root->val, l.mini);
+        h.maxi = max((ll)root->val, r.maxi);
         return h;
     }
     bool isValidBST(TreeNode* root) {
